@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiritual Practice Tracker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Import Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
+
+        /* Variables */
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #161622;
+            --accent: #6b21a8;
+            --accent-light: #9333ea;
+            --text: #e2e2e2;
+            --completed: #22c55e;
+            --gold: #ffd700;
+            --danger: #dc2626;
+            --link: #3b82f6;
+            --dropdown-bg: rgba(107, 33, 168, 0.2);
+
+            /* Common alpha values */
+            --alpha-low: 0.05;
+            --alpha-medium: 0.1;
+            --alpha-high: 0.2;
+
+            /* Shadows */
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.2);
+
+            /* Animations */
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+
+            /* Border Radius */
+            --radius-sm: 0.3rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: var(--spacing-xl) var(--spacing-md);
+            background-image:
+                url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"),
+                radial-gradient(circle at top right, rgba(107, 33, 168, 0.15) 0%, transparent 70%),
+                radial-gradient(circle at bottom left, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
+            background-attachment: fixed;
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Header & Title */
+        header {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            padding: var(--spacing-xl) 0;
+            position: relative;
+            background: linear-gradient(180deg,
+                    rgba(107, 33, 168, 0.1) 0%,
+                    transparent 100%);
+            border-radius: var(--radius-lg);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin: 0 auto var(--spacing-lg);
+            max-width: 90%;
+            background: linear-gradient(45deg, var(--gold), var(--accent-light) 50%, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
+            letter-spacing: 0.1em;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::before,
+        h1::after {
+            content: '✧';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            opacity: 0.6;
+            font-size: 0.8em;
+        }
+
+        h1::before {
+            left: -2em;
+        }
+
+        h1::after {
+            right: -2em;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin: var(--spacing-xl) 0;
+            padding: 0 var(--spacing-md);
+        }
+
+        .btn {
+            font-family: 'Cinzel', serif;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: none;
+            border-radius: var(--radius-md);
+            background: var(--accent);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            transition: all var(--transition-fast);
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+            min-width: 160px;
+            justify-content: center;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
+            transition: var(--transition-medium);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(107, 33, 168, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-uncheck {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+        }
+
+        /* Section Styles */
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-xl);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-medium);
+            animation: fadeIn 0.5s ease;
+            border: 1px solid rgba(147, 51, 234, 0.1);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .section:hover::before {
+            opacity: 1;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid rgba(147, 51, 234, 0.2);
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.6rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .section-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        /* Drag Handles */
+        .drag-handle {
+            opacity: 1 !important;
+            /* Override the previous hover-only visibility */
+            cursor: grab;
+            padding: var(--spacing-sm);
+            border-radius: 50%;
+            background: rgba(147, 51, 234, 0.1);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+
+        .section-drag-handle {
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Add hover effect for drag handles */
+        .drag-handle:hover {
+            background: rgba(147, 51, 234, 0.2);
+            transform: scale(1.1);
+        }
+
+        .drag-handle i {
+            color: rgba(226, 226, 226, 0.7);
+            transition: color var(--transition-fast);
+        }
+
+        .drag-handle:hover i {
+            color: var(--gold);
+        }
+
+        .drag-handle.dragging {
+            background: var(--accent);
+            cursor: grabbing;
+        }
+
+        /* Item Styles */
+        .items {
+            list-style: none;
+        }
+
+        .item {
+            margin: var(--spacing-md) 0;
+            background: rgba(107, 33, 168, 0.1);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            position: relative;
+            border: 1px solid rgba(147, 51, 234, 0.1);
+            overflow: hidden;
+        }
+
+        .item-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            background: rgba(107, 33, 168, 0.05);
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+        }
+
+        .item-drag-handle {
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .item:hover .item-drag-handle {
+            opacity: 1;
+        }
+
+        .item-content {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            user-select: none;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .item-count {
+            padding: 0.2rem 0.8rem;
+            background: rgba(147, 51, 234, 0.2);
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .item-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-left: auto;
+            opacity: 0.6;
+            transition: opacity var(--transition-fast);
+        }
+
+        .item:hover .item-controls {
+            opacity: 1;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-fast);
+            position: relative;
+            z-index: 2;
+        }
+
+        .icon-btn:hover {
+            background: rgba(147, 51, 234, 0.2);
+            color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        /* Dropdown Content */
+        .dropdown-content {
+    display: none; /* Add this line */
+    padding: var(--spacing-lg);
+    background: rgba(22, 22, 34, 0.5);
+    margin: 0;
+    width: 100%;
+}
+
+        .item.expanded .dropdown-content {
+            display: block;
+            animation: slideDown var(--transition-fast);
+        }
+
+        .item.expanded .dropdown-content,
+.subitem.expanded .dropdown-content {
+    display: block;
+    animation: slideDown var(--transition-fast);
+}
+
+        .description {
+            color: #a8a8a8;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: rgba(107, 33, 168, 0.05);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--accent);
+        }
+
+        .item-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--link);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            background: rgba(59, 130, 246, 0.1);
+            margin-top: var(--spacing-sm);
+        }
+
+        .item-link:hover {
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        /* Subitem Styles */
+        .subitems {
+            list-style: none;
+            margin: var(--spacing-xl) 0;
+            padding-left: var(--spacing-xl);
+            border-left: 2px solid rgba(147, 51, 234, 0.3);
+            width: 100%;
+        }
+
+        .item-drag-handle,
+        .subitem-drag-handle {
+            opacity: 1 !important;
+        }
+
+        .subitem {
+            margin: var(--spacing-md) 0;
+            background: rgba(107, 33, 168, 0.05);
+            border-radius: var(--radius-md);
+            position: relative;
+            transition: all var(--transition-fast);
+            width: calc(100% - var(--spacing-lg));
+        }
+
+        .subitem::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 50%;
+            width: 1rem;
+            height: 2px;
+            background: rgba(147, 51, 234, 0.3);
+            transition: width var(--transition-fast);
+        }
+
+        .subitem:hover::before {
+            width: 1.25rem;
+            background: var(--accent);
+        }
+
+        .subitem .item-header {
+            padding: var(--spacing-md) var(--spacing-lg);
+            gap: var(--spacing-md);
+        }
+
+        .subitem .description {
+            margin: 0 var(--spacing-md) var(--spacing-md);
+            background: rgba(107, 33, 168, 0.1);
+        }
+
+        .subitem .item-content {
+            min-width: 0;
+            /* Allows text truncation to work */
+        }
+
+        .subitem .item-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Expand Indicator */
+        .expand-indicator {
+    width: 26px;
+    height: 26px;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.expand-indicator i {
+    transition: transform var(--transition-fast);
+    font-size: 0.8rem;
+    color: var(--text);
+}
+
+.item.expanded .expand-indicator,
+.subitem.expanded .expand-indicator {
+    background: var(--accent);
+}
+
+.item.expanded .expand-indicator i,
+.subitem.expanded .expand-indicator i {
+    transform: rotate(180deg);
+}
+        /* Checkbox Styles */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .custom-checkbox {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--accent);
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: all var(--transition-fast);
+            background: rgba(107, 33, 168, 0.1);
+        }
+
+        .custom-checkbox:checked {
+            background: var(--completed);
+            border-color: var(--completed);
+        }
+
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 0.8rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            display: none;
+            overflow-y: auto;
+            padding: var(--spacing-xl) var(--spacing-md);
+        }
+
+        .modal-overlay.active {
+            display: block;
+            animation: fadeIn var(--transition-fast);
+        }
+
+        .modal {
+            position: relative;
+            background: var(--bg-secondary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            z-index: 1000;
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            display: none;
+            overflow: hidden;
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+        }
+
+        .modal.active {
+            display: block;
+            animation: modalSlideIn var(--transition-fast);
+        }
+
+        .modal h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+            font-size: 1.8rem;
+            position: relative;
+        }
+
+        /* Form Styles */
+        .input-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--accent);
+            background: var(--bg-primary);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            resize: vertical;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.2);
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            background: var(--accent);
+            color: var(--text);
+            z-index: 1000;
+            animation: slideIn var(--transition-fast);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            min-width: 300px;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success {
+            background: var(--completed);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
+
+        /* Drag and Drop States */
+        .drag-ghost {
+            opacity: 0.5;
+            background: var(--accent);
+            border: 2px dashed var(--gold);
+        }
+
+        .drag-over {
+            border: 2px dashed var(--gold);
+        }
+
+        .dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate3d(0, -50px, 0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                --spacing-md: 0.75rem;
+                --spacing-lg: 1.25rem;
+                --spacing-xl: 1.5rem;
+            }
+
+            .sections {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .section {
+                padding: var(--spacing-lg);
+            }
+
+            .modal {
+                width: 95%;
+                padding: var(--spacing-lg);
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .drag-handle {
+                opacity: 1;
+                width: 26px;
+                height: 26px;
+            }
+
+            .item-controls {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+
+            .section {
+                padding: var(--spacing-md);
+            }
+
+            .item-header {
+                flex-wrap: wrap;
+            }
+
+            .item-controls {
+                width: 100%;
+                justify-content: flex-end;
+                margin-top: var(--spacing-sm);
+            }
+        }
+
+        /* Replace the existing credit style with this enhanced version */
+        .credit {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(107, 33, 168, 0.2);
+            padding: 0.8rem 1.2rem;
+            border-radius: 1.5rem;
+            font-size: 1rem;
+            color: var(--text);
+            text-align: right;
+            font-family: 'Cinzel', serif;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: all var(--transition-fast);
+            transform-origin: right;
+        }
+
+        .credit:hover {
+            transform: scale(1.05);
+            background: rgba(107, 33, 168, 0.3);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+        }
+
+        .credit::before {
+            content: '✧';
+            color: var(--gold);
+            margin-right: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .credit::after {
+            content: '✧';
+            color: var(--gold);
+            margin-left: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .credit a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            font-weight: 600;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.3rem;
+        }
+
+        .credit a:hover {
+            color: var(--accent-light);
+            text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .credit {
+                bottom: 1rem;
+                right: 1rem;
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1400px) {
+            .sections {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sections {
+                grid-template-columns: 1fr;
+            }
+
+            .subitems {
+                padding-left: var(--spacing-md);
+                margin: var(--spacing-lg) 0;
+            }
+
+            .subitem {
+                width: calc(100% - var(--spacing-md));
+            }
+
+            .subitem .item-header {
+                padding: var(--spacing-md);
+                flex-wrap: wrap;
+            }
+
+            .item-controls {
+                margin-top: var(--spacing-sm);
+            }
+        }
+
+        /* Add smooth transitions for section width changes */
+        .section {
+            transition: all var(--transition-fast), width 0.3s ease-in-out;
+        }
+
+        /* Ensure content doesn't overflow */
+        .item-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .description {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="animate__animated animate__fadeIn">
+            <h1>Spiritual Practice Tracker</h1>
+            <div class="controls">
+                <button class="btn" onclick="showAddSectionModal()">
+                    <i class="fas fa-plus"></i> Add Section
+                </button>
+                <button class="btn" onclick="exportData()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn" onclick="showImportModal()">
+                    <i class="fas fa-upload"></i> Import
+                </button>
+                <button class="btn btn-uncheck" onclick="uncheckAll()">
+                    <i class="fas fa-square"></i> Uncheck All
+                </button>
+                <button class="btn btn-danger" onclick="resetData()">
+                    <i class="fas fa-trash-alt"></i> Reset All
+                </button>
+            </div>
+        </header>
+
+        <div id="sections" class="sections"></div>
+    </div>
+
+    <!-- Add Section Modal -->
+    <div class="modal-overlay" id="sectionModal">
+        <div class="modal">
+            <h2>Add New Section</h2>
+            <div class="input-group">
+                <label>Section Name</label>
+                <input type="text" id="sectionName" placeholder="Enter section name...">
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="addSection()">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+                <button class="btn" onclick="hideModals()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Item Modal -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal">
+            <h2 id="itemModalTitle">Add New Practice</h2>
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" id="itemName" placeholder="Enter practice name...">
+            </div>
+            <div class="input-group">
+                <label>Count (optional)</label>
+                <input type="text" id="itemCount" placeholder="e.g., 108">
+            </div>
+            <div class="input-group">
+                <label>Description (optional)</label>
+                <textarea id="itemDescription" rows="3" placeholder="Enter description..."></textarea>
+            </div>
+            <div class="input-group">
+                <label>URL (optional)</label>
+                <input type="url" id="itemUrl" placeholder="https://...">
+            </div>
+            <div class="checkbox-wrapper" style="margin-bottom: var(--spacing-lg);">
+                <input type="checkbox" id="itemHasSubitems" class="custom-checkbox">
+                <label for="itemHasSubitems">Add Subitems</label>
+            </div>
+            <div id="subitemsContainer" style="display: none;">
+                <h3 style="color: var(--gold); margin-bottom: var(--spacing-md); font-family: 'Cinzel', serif;">Subitems
+                </h3>
+                <div id="subitemsList"></div>
+                <button class="btn" onclick="addSubitemField()" style="margin-top: var(--spacing-md);">
+                    <i class="fas fa-plus"></i> Add Subitem
+                </button>
+            </div>
+            <div class="controls" style="margin-top: var(--spacing-lg);">
+                <button class="btn" onclick="saveItem()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn" onclick="hideModals()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subitem Modal -->
+    <div class="modal-overlay" id="subitemModal">
+        <div class="modal">
+            <h2>Edit Subitem</h2>
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" id="subitemName" placeholder="Enter subitem name...">
+            </div>
+            <div class="input-group">
+                <label>Count (optional)</label>
+                <input type="text" id="subitemCount" placeholder="e.g., 108">
+            </div>
+            <div class="input-group">
+                <label>Description (optional)</label>
+                <textarea id="subitemDescription" rows="3" placeholder="Enter description..."></textarea>
+            </div>
+            <div class="input-group">
+                <label>URL (optional)</label>
+                <input type="url" id="subitemUrl" placeholder="https://...">
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="saveSubitem()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn" onclick="hideModals()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div class="modal-overlay" id="importModal">
+        <div class="modal">
+            <h2>Import Data</h2>
+            <div class="input-group">
+                <label>Import Key</label>
+                <textarea id="importKey" rows="3" placeholder="Paste your import key here..."></textarea>
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="importData()">
+                    <i class="fas fa-file-import"></i> Import
+                </button>
+                <button class="btn" onclick="hideModals()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template for subitem field -->
+    <template id="subitemFieldTemplate">
+        <div class="subitem-field"
+            style="background: rgba(107, 33, 168, 0.1); border-radius: var(--radius-md); padding: var(--spacing-lg); margin: var(--spacing-md) 0; position: relative;">
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" class="subitem-name" placeholder="Enter subitem name...">
+            </div>
+            <div class="input-group">
+                <label>Count (optional)</label>
+                <input type="text" class="subitem-count" placeholder="e.g., 108">
+            </div>
+            <div class="input-group">
+                <label>Description (optional)</label>
+                <textarea class="subitem-description" rows="2" placeholder="Enter description..."></textarea>
+            </div>
+            <div class="input-group">
+                <label>URL (optional)</label>
+                <input type="url" class="subitem-url" placeholder="https://...">
+            </div>
+            <button class="icon-btn" onclick="removeSubitemField(this)"
+                style="position: absolute; top: var(--spacing-sm); right: var(--spacing-sm);">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </template>
+
+    <div class="credit">
+        Created by <a href="https://ancient-forums.com/members/ramses13th.73169/"
+            target="_blank">@ramses13th</a> from  <a href="https://ancient-forums.com/"
+            target="_blank">ancient-forums.com</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Global Variables
+            let sections = JSON.parse(localStorage.getItem('spiritualTracker') || '[]');
+            let editingSection = null;
+            let editingItem = null;
+            let editingSubitem = null;
+            let draggedItem = null;
+            let draggedSection = null;
+            let dragTimeout = null;
+            let isDragging = false;
+
+            // Utility Functions
+            function generateId() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            }
+
+            function saveToStorage() {
+                localStorage.setItem('spiritualTracker', JSON.stringify(sections));
+            }
+
+            function showNotification(message, type = 'success', duration = 3000) {
+                // Remove existing notifications
+                document.querySelectorAll('.notification').forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                    ${message}
+                `;
+                document.body.appendChild(notification);
+
+                // Add click to dismiss
+                notification.addEventListener('click', () => notification.remove());
+
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease forwards';
+                    setTimeout(() => notification.remove(), 300);
+                }, duration);
+            }
+
+            function validateUrl(url) {
+                if (!url) return '';
+                try {
+                    new URL(url);
+                    return url;
+                } catch {
+                    return url.startsWith('http') ? url : `https://${url}`;
+                }
+            }
+
+            // Render Functions
+            function renderSections() {
+                const container = document.getElementById('sections');
+                container.innerHTML = sections.map(section => `
+                    <div class="section" data-id="${section.id}">
+                        <div class="drag-handle section-drag-handle" data-drag-type="section">
+                            <i class="fas fa-grip-vertical"></i>
+                        </div>
+                        <div class="section-header">
+                            <h2 class="section-title">${section.name}</h2>
+                            <div class="section-controls">
+                                <button class="icon-btn" onclick="addItemToSection('${section.id}')">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="icon-btn" onclick="uncheckSection('${section.id}')">
+                                    <i class="fas fa-square"></i>
+                                </button>
+                                <button class="icon-btn" onclick="deleteSection('${section.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <ul class="items">
+                            ${renderItems(section.items)}
+                        </ul>
+                    </div>
+                `).join('');
+
+                // Initialize drag handles after rendering
+                initializeDragHandles();
+            }
+
+            function renderItems(items) {
+                return items.map(item => `
+                    <li class="item ${item.completed ? 'completed' : ''} ${item.description || item.subitems?.length || item.url ? 'has-content' : ''}" 
+                        data-id="${item.id}">
+                        <div class="item-header">
+                            <div class="drag-handle item-drag-handle" data-drag-type="item">
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" class="custom-checkbox" 
+                                    ${item.completed ? 'checked' : ''}
+                                    onchange="toggleItem('${item.id}')">
+                            </div>
+                            <div class="item-content">
+                                <span class="item-name">${item.name}</span>
+                                ${item.count ? `<span class="item-count">x${item.count}</span>` : ''}
+                            </div>
+                            <div class="item-controls">
+                                ${(item.description || item.subitems?.length || item.url) ? `
+                                    <button class="icon-btn expand-btn" onclick="toggleItemContent('${item.id}')">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                ` : ''}
+                                <button class="icon-btn" onclick="editItem('${item.id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="icon-btn" onclick="deleteItem('${item.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        ${renderItemContent(item)}
+                    </li>
+                `).join('');
+            }
+
+            function renderItemContent(item) {
+                if (!item.description && !item.subitems?.length && !item.url) return '';
+
+                return `
+                    <div class="dropdown-content">
+                        ${item.description ? `
+                            <div class="description">${item.description}</div>
+                        ` : ''}
+                        ${item.url ? `
+                            <a href="${item.url}" class="item-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                ${item.url}
+                            </a>
+                        ` : ''}
+                        ${item.subitems?.length ? `
+                            <ul class="subitems">
+                                ${renderSubitems(item.subitems)}
+                            </ul>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            function renderSubitems(subitems) {
+                return subitems.map(subitem => `
+        <li class="subitem ${subitem.completed ? 'completed' : ''}" data-id="${subitem.id}">
+            <div class="item-header">
+                <div class="drag-handle subitem-drag-handle" data-drag-type="subitem">
+                    <i class="fas fa-grip-vertical"></i>
+                </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" class="custom-checkbox" 
+                        ${subitem.completed ? 'checked' : ''}
+                        onchange="toggleSubitem('${subitem.id}')">
+                </div>
+                <div class="item-content">
+                    <span class="item-name">${subitem.name}</span>
+                    ${subitem.count ? `<span class="item-count">x${subitem.count}</span>` : ''}
+                </div>
+                <div class="item-controls">
+                    ${(subitem.description || subitem.url) ? `
+                        <button class="icon-btn expand-btn" onclick="toggleSubitemContent('${subitem.id}')">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    ` : ''}
+                    <button class="icon-btn" onclick="editSubitem('${subitem.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="icon-btn" onclick="deleteSubitem('${subitem.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            ${renderSubitemContent(subitem)}
+        </li>
+    `).join('');
+            }
+
+            function renderSubitemContent(subitem) {
+                if (!subitem.description && !subitem.url) return '';
+
+                return `
+                    <div class="dropdown-content">
+                        ${subitem.description ? `
+                            <div class="description">${subitem.description}</div>
+                        ` : ''}
+                        ${subitem.url ? `
+                            <a href="${subitem.url}" class="item-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                ${subitem.url}
+                            </a>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            // Modal Functions
+            function showAddSectionModal() {
+                document.getElementById('sectionModal').classList.add('active');
+                document.querySelector('#sectionModal .modal').classList.add('active');
+                setTimeout(() => document.getElementById('sectionName').focus(), 100);
+            }
+
+            function hideModals() {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                    modal.querySelector('.modal').classList.remove('active');
+                });
+                editingSection = null;
+                editingItem = null;
+                editingSubitem = null;
+            }
+
+            // CRUD Functions
+            function addSection() {
+                const name = document.getElementById('sectionName').value.trim();
+                if (!name) return;
+
+                sections.push({
+                    id: generateId(),
+                    name,
+                    items: []
+                });
+
+                saveToStorage();
+                renderSections();
+                hideModals();
+                document.getElementById('sectionName').value = '';
+                showNotification('Section added successfully');
+            }
+
+            function deleteSection(id) {
+                if (!confirm('Are you sure you want to delete this section and all its items?')) return;
+                sections = sections.filter(s => s.id !== id);
+                saveToStorage();
+                renderSections();
+                showNotification('Section deleted');
+            }
+
+            function addItemToSection(sectionId) {
+                editingSection = sectionId;
+                editingItem = null;
+                document.getElementById('itemModalTitle').textContent = 'Add New Practice';
+                clearItemModal();
+                document.getElementById('itemModal').classList.add('active');
+                document.querySelector('#itemModal .modal').classList.add('active');
+                setTimeout(() => document.getElementById('itemName').focus(), 100);
+            }
+
+            function editItem(itemId) {
+                event.stopPropagation();
+                const section = sections.find(s => s.items.some(i => i.id === itemId));
+                const item = section.items.find(i => i.id === itemId);
+
+                editingSection = section.id;
+                editingItem = itemId;
+
+                document.getElementById('itemModalTitle').textContent = 'Edit Practice';
+                document.getElementById('itemName').value = item.name;
+                document.getElementById('itemCount').value = item.count || '';
+                document.getElementById('itemDescription').value = item.description || '';
+                document.getElementById('itemUrl').value = item.url || '';
+                document.getElementById('itemHasSubitems').checked = item.subitems?.length > 0;
+
+                if (item.subitems?.length) {
+                    document.getElementById('subitemsContainer').style.display = 'block';
+                    item.subitems.forEach(subitem => addSubitemField(subitem));
+                }
+
+                document.getElementById('itemModal').classList.add('active');
+                document.querySelector('#itemModal .modal').classList.add('active');
+            }
+
+            function saveItem() {
+                const name = document.getElementById('itemName').value.trim();
+                const count = document.getElementById('itemCount').value.trim();
+                const description = document.getElementById('itemDescription').value.trim();
+                const url = validateUrl(document.getElementById('itemUrl').value.trim());
+                const hasSubitems = document.getElementById('itemHasSubitems').checked;
+
+                if (!name) {
+                    showNotification('Please enter a name for the practice', 'error');
+                    return;
+                }
+
+                const section = sections.find(s => s.id === editingSection);
+                const newItem = {
+                    id: editingItem || generateId(),
+                    name,
+                    count,
+                    description,
+                    url,
+                    completed: editingItem ? section.items.find(i => i.id === editingItem)?.completed || false : false,
+                    subitems: []
+                };
+
+                if (hasSubitems) {
+                    const subitemFields = document.querySelectorAll('.subitem-field');
+                    newItem.subitems = Array.from(subitemFields)
+                        .map(field => ({
+                            id: generateId(),
+                            name: field.querySelector('.subitem-name').value.trim(),
+                            count: field.querySelector('.subitem-count').value.trim(),
+                            description: field.querySelector('.subitem-description').value.trim(),
+                            url: validateUrl(field.querySelector('.subitem-url').value.trim()),
+                            completed: false
+                        }))
+                        .filter(subitem => subitem.name);
+                }
+
+                if (editingItem) {
+                    const itemIndex = section.items.findIndex(i => i.id === editingItem);
+                    section.items[itemIndex] = newItem;
+                } else {
+                    section.items.push(newItem);
+                }
+
+                saveToStorage();
+                renderSections();
+                hideModals();
+                showNotification(editingItem ? 'Practice updated successfully' : 'Practice added successfully');
+            }
+
+            function deleteItem(itemId) {
+                event.stopPropagation();
+                if (!confirm('Are you sure you want to delete this practice?')) return;
+
+                sections = sections.map(section => ({
+                    ...section,
+                    items: section.items.filter(item => item.id !== itemId)
+                }));
+
+                saveToStorage();
+                renderSections();
+                showNotification('Practice deleted');
+            }
+
+            // Subitem Management
+            function addSubitemField(existingSubitem = null) {
+                const template = document.getElementById('subitemFieldTemplate');
+                const container = document.getElementById('subitemsList');
+                const clone = template.content.cloneNode(true);
+
+                if (existingSubitem) {
+                    clone.querySelector('.subitem-name').value = existingSubitem.name;
+                    clone.querySelector('.subitem-count').value = existingSubitem.count || '';
+                    clone.querySelector('.subitem-description').value = existingSubitem.description || '';
+                    clone.querySelector('.subitem-url').value = existingSubitem.url || '';
+                }
+
+                container.appendChild(clone);
+                document.getElementById('subitemsContainer').style.display = 'block';
+            }
+
+            function removeSubitemField(btn) {
+                btn.closest('.subitem-field').remove();
+                if (!document.querySelector('.subitem-field')) {
+                    document.getElementById('subitemsContainer').style.display = 'none';
+                }
+            }
+
+            function editSubitem(subitemId) {
+                event.stopPropagation();
+                let targetSubitem;
+                let parentItem;
+
+                sections.forEach(section => {
+                    section.items.forEach(item => {
+                        if (item.subitems?.some(s => s.id === subitemId)) {
+                            targetSubitem = item.subitems.find(s => s.id === subitemId);
+                            parentItem = item;
+                            editingSection = section.id;
+                        }
+                    });
+                });
+
+                if (!targetSubitem) return;
+
+                editingItem = parentItem.id;
+                editingSubitem = subitemId;
+
+                document.getElementById('subitemName').value = targetSubitem.name;
+                document.getElementById('subitemCount').value = targetSubitem.count || '';
+                document.getElementById('subitemDescription').value = targetSubitem.description || '';
+                document.getElementById('subitemUrl').value = targetSubitem.url || '';
+
+                document.getElementById('subitemModal').classList.add('active');
+                document.querySelector('#subitemModal .modal').classList.add('active');
+            }
+
+            function saveSubitem() {
+                const name = document.getElementById('subitemName').value.trim();
+                if (!name) {
+                    showNotification('Please enter a name for the subitem', 'error');
+                    return;
+                }
+
+                sections = sections.map(section => {
+                    if (section.id === editingSection) {
+                        return {
+                            ...section,
+                            items: section.items.map(item => {
+                                if (item.id === editingItem) {
+                                    const subitems = item.subitems || [];
+                                    const subitemIndex = subitems.findIndex(s => s.id === editingSubitem);
+
+                                    const updatedSubitem = {
+                                        id: editingSubitem,
+                                        name,
+                                        count: document.getElementById('subitemCount').value.trim(),
+                                        description: document.getElementById('subitemDescription').value.trim(),
+                                        url: validateUrl(document.getElementById('subitemUrl').value.trim()),
+                                        completed: subitemIndex >= 0 ? subitems[subitemIndex].completed : false
+                                    };
+
+                                    if (subitemIndex >= 0) {
+                                        subitems[subitemIndex] = updatedSubitem;
+                                    } else {
+                                        subitems.push(updatedSubitem);
+                                    }
+
+                                    return { ...item, subitems };
+                                }
+                                return item;
+                            })
+                        };
+                    }
+                    return section;
+                });
+
+                saveToStorage();
+                renderSections();
+                hideModals();
+                showNotification('Subitem saved successfully');
+            }
+
+            function deleteSubitem(subitemId) {
+                event.stopPropagation();
+                if (!confirm('Are you sure you want to delete this subitem?')) return;
+
+                sections = sections.map(section => ({
+                    ...section,
+                    items: section.items.map(item => ({
+                        ...item,
+                        subitems: (item.subitems || []).filter(s => s.id !== subitemId)
+                    }))
+                }));
+
+                saveToStorage();
+                renderSections();
+                showNotification('Subitem deleted');
+            }
+
+            function toggleItemContent(itemId) {
+                event.stopPropagation();
+                const item = document.querySelector(`.item[data-id="${itemId}"]`);
+                const expandBtn = item.querySelector('.expand-btn i');
+                const wasExpanded = item.classList.contains('expanded');
+
+                // Close all other items and their subitems
+                document.querySelectorAll('.item.expanded').forEach(expandedItem => {
+                    if (expandedItem !== item) {
+                        expandedItem.classList.remove('expanded');
+                        const otherIcon = expandedItem.querySelector('.expand-btn i');
+                        if (otherIcon) {
+                            otherIcon.classList.remove('fa-chevron-up');
+                            otherIcon.classList.add('fa-chevron-down');
+                        }
+                        // Close all subitems within this item
+                        expandedItem.querySelectorAll('.subitem.expanded').forEach(subitem => {
+                            subitem.classList.remove('expanded');
+                            const subitemIcon = subitem.querySelector('.expand-btn i');
+                            if (subitemIcon) {
+                                subitemIcon.classList.remove('fa-chevron-up');
+                                subitemIcon.classList.add('fa-chevron-down');
+                            }
+                        });
+                    }
+                });
+
+                item.classList.toggle('expanded');
+                if (expandBtn) {
+                    expandBtn.classList.toggle('fa-chevron-up', !wasExpanded);
+                    expandBtn.classList.toggle('fa-chevron-down', wasExpanded);
+                }
+            }
+
+            function toggleSubitemContent(subitemId) {
+                event.stopPropagation();
+                const subitem = document.querySelector(`.subitem[data-id="${subitemId}"]`);
+                const expandBtn = subitem.querySelector('.expand-btn i');
+
+                subitem.classList.toggle('expanded');
+                if (expandBtn) {
+                    expandBtn.classList.toggle('fa-chevron-up');
+                    expandBtn.classList.toggle('fa-chevron-down');
+                }
+            }
+
+            function toggleItem(itemId) {
+                sections = sections.map(section => ({
+                    ...section,
+                    items: section.items.map(item => {
+                        if (item.id === itemId) {
+                            return { ...item, completed: !item.completed };
+                        }
+                        return item;
+                    })
+                }));
+
+                saveToStorage();
+                // Don't re-render the whole list, just update the checkbox state
+                const item = document.querySelector(`.item[data-id="${itemId}"]`);
+                item.classList.toggle('completed');
+            }
+
+            function toggleSubitem(subitemId) {
+                sections = sections.map(section => ({
+                    ...section,
+                    items: section.items.map(item => ({
+                        ...item,
+                        subitems: (item.subitems || []).map(subitem =>
+                            subitem.id === subitemId
+                                ? { ...subitem, completed: !subitem.completed }
+                                : subitem
+                        )
+                    }))
+                }));
+
+                saveToStorage();
+                // Don't re-render the whole list, just update the checkbox state
+                const subitem = document.querySelector(`.subitem[data-id="${subitemId}"]`);
+                subitem.classList.toggle('completed');
+            }
+
+            // Drag and Drop Implementation
+            function initializeDragHandles() {
+                const dragHandles = document.querySelectorAll('.drag-handle');
+
+                dragHandles.forEach(handle => {
+                    handle.addEventListener('mousedown', handleDragStart);
+                    handle.addEventListener('touchstart', handleDragStart, { passive: false });
+                });
+            }
+
+            function handleDragStart(e) {
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+
+                const handle = e.target.closest('.drag-handle');
+                if (!handle) return;
+
+                if (dragTimeout) {
+                    clearTimeout(dragTimeout);
+                }
+
+                dragTimeout = setTimeout(() => {
+                    const dragType = handle.dataset.dragType;
+                    const element = dragType === 'section'
+                        ? handle.closest('.section')
+                        : dragType === 'subitem'
+                            ? handle.closest('.subitem')
+                            : handle.closest('.item');
+
+                    if (!element) return;
+
+                    isDragging = true;
+                    element.classList.add('dragging');
+                    handle.classList.add('dragging');
+
+                    if (dragType === 'section') {
+                        draggedSection = element;
+                        draggedItem = null;
+                    } else if (dragType === 'subitem') {
+                        draggedItem = element;
+                        draggedSection = null;
+                    } else {
+                        draggedItem = element;
+                        draggedSection = null;
+                    }
+
+                    element.style.opacity = '0.5';
+
+                    document.addEventListener('mousemove', handleDragMove);
+                    document.addEventListener('touchmove', handleDragMove, { passive: false });
+                    document.addEventListener('mouseup', handleDragEnd);
+                    document.addEventListener('touchend', handleDragEnd);
+                }, 500);
+
+                document.addEventListener('mouseup', cancelDragStart);
+                document.addEventListener('touchend', cancelDragStart);
+            }
+            function cancelDragStart() {
+                if (dragTimeout) {
+                    clearTimeout(dragTimeout);
+                    dragTimeout = null;
+                }
+                document.removeEventListener('mouseup', cancelDragStart);
+                document.removeEventListener('touchend', cancelDragStart);
+            }
+
+            function handleDragMove(e) {
+                e.preventDefault();
+                if (!isDragging) return;
+
+                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+                // Remove existing drag-over states
+                document.querySelectorAll('.drag-over').forEach(el =>
+                    el.classList.remove('drag-over'));
+
+                // Find the element we're dragging over
+                const elementBelow = document.elementFromPoint(
+                    e.type === 'touchmove' ? e.touches[0].clientX : e.clientX,
+                    clientY
+                );
+
+                if (!elementBelow) return;
+
+                const dropTarget = draggedSection
+                    ? elementBelow.closest('.section')
+                    : elementBelow.closest('.item');
+
+                if (dropTarget && dropTarget !== (draggedSection || draggedItem)) {
+                    dropTarget.classList.add('drag-over');
+                }
+            }
+
+            function handleDragEnd(e) {
+                if (!isDragging) return;
+
+                const elementBelow = document.elementFromPoint(
+                    e.type === 'touchend'
+                        ? e.changedTouches[0].clientX
+                        : e.clientX,
+                    e.type === 'touchend'
+                        ? e.changedTouches[0].clientY
+                        : e.clientY
+                );
+
+                if (elementBelow) {
+                    const dropTarget = draggedSection
+                        ? elementBelow.closest('.section')
+                        : elementBelow.closest('.item');
+
+                    if (dropTarget && dropTarget !== (draggedSection || draggedItem)) {
+                        handleDrop(dropTarget);
+                    }
+                }
+
+                // Clean up
+                isDragging = false;
+                if (draggedSection) {
+                    draggedSection.style.opacity = '';
+                    draggedSection.classList.remove('dragging');
+                    draggedSection = null;
+                }
+                if (draggedItem) {
+                    draggedItem.style.opacity = '';
+                    draggedItem.classList.remove('dragging');
+                    draggedItem = null;
+                }
+
+                document.querySelectorAll('.drag-over').forEach(el =>
+                    el.classList.remove('drag-over'));
+                document.querySelectorAll('.dragging').forEach(el =>
+                    el.classList.remove('dragging'));
+
+                document.removeEventListener('mousemove', handleDragMove);
+                document.removeEventListener('touchmove', handleDragMove);
+                document.removeEventListener('mouseup', handleDragEnd);
+                document.removeEventListener('touchend', handleDragEnd);
+            }
+
+            function handleDrop(dropTarget) {
+                if (draggedSection && dropTarget.classList.contains('section')) {
+                    // Handle section drop
+                    const fromIndex = Array.from(draggedSection.parentNode.children).indexOf(draggedSection);
+                    const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+
+                    const [movedSection] = sections.splice(fromIndex, 1);
+                    sections.splice(toIndex, 0, movedSection);
+                } else if (draggedItem) {
+                    const isSubitem = draggedItem.classList.contains('subitem');
+                    const fromSection = draggedItem.closest('.section');
+                    const toSection = dropTarget.closest('.section');
+
+                    if (isSubitem) {
+                        // Handle subitem drop
+                        const fromItem = draggedItem.closest('.item');
+                        const toItem = dropTarget.closest('.item');
+
+                        if (toItem) {
+                            const fromSectionData = sections.find(s => s.id === fromSection.dataset.id);
+                            const fromItemData = fromSectionData.items.find(i => i.id === fromItem.dataset.id);
+                            const toSectionData = sections.find(s => s.id === toSection.dataset.id);
+                            const toItemData = toSectionData.items.find(i => i.id === toItem.dataset.id);
+
+                            const subitemId = draggedItem.dataset.id;
+                            const [movedSubitem] = fromItemData.subitems.splice(
+                                fromItemData.subitems.findIndex(s => s.id === subitemId),
+                                1
+                            );
+
+                            if (!toItemData.subitems) {
+                                toItemData.subitems = [];
+                            }
+                            toItemData.subitems.push(movedSubitem);
+                        }
+                    } else {
+                        // Handle item drop
+                        const fromSectionId = fromSection.dataset.id;
+                        const toSectionId = toSection.dataset.id;
+
+                        const fromIndex = Array.from(draggedItem.parentNode.children).indexOf(draggedItem);
+                        const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+
+                        const fromSectionData = sections.find(s => s.id === fromSectionId);
+                        const [movedItem] = fromSectionData.items.splice(fromIndex, 1);
+
+                        if (fromSectionId === toSectionId) {
+                            fromSectionData.items.splice(toIndex, 0, movedItem);
+                        } else {
+                            const toSectionData = sections.find(s => s.id === toSectionId);
+                            toSectionData.items.splice(toIndex, 0, movedItem);
+                        }
+                    }
+                }
+
+                saveToStorage();
+                renderSections();
+            }
+            // Import/Export Functions
+            function exportData() {
+                const key = btoa(JSON.stringify(sections));
+
+                navigator.clipboard.writeText(key).then(() => {
+                    showNotification('Export key copied to clipboard', 'success');
+                }).catch(() => {
+                    // Fallback for browsers that don't support clipboard API
+                    const textarea = document.createElement('textarea');
+                    textarea.value = key;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showNotification('Export key copied to clipboard', 'success');
+                });
+            }
+
+            function importData() {
+                const key = document.getElementById('importKey').value.trim();
+                if (!key) {
+                    showNotification('Please enter an import key', 'error');
+                    return;
+                }
+
+                try {
+                    const importedData = JSON.parse(atob(key));
+
+                    if (Array.isArray(importedData) && importedData.every(section =>
+                        typeof section === 'object' &&
+                        'id' in section &&
+                        'name' in section &&
+                        'items' in section
+                    )) {
+                        sections = importedData;
+                        saveToStorage();
+                        renderSections();
+                        hideModals();
+                        document.getElementById('importKey').value = '';
+                        showNotification('Data imported successfully', 'success');
+                    } else {
+                        throw new Error('Invalid data structure');
+                    }
+                } catch (error) {
+                    showNotification('Invalid import key. Please check the key and try again.', 'error');
+                }
+            }
+
+            // Uncheck Functions
+            function uncheckAll() {
+                if (!confirm('Are you sure you want to uncheck all items?')) return;
+
+                sections = sections.map(section => ({
+                    ...section,
+                    items: section.items.map(item => ({
+                        ...item,
+                        completed: false,
+                        subitems: (item.subitems || []).map(subitem => ({
+                            ...subitem,
+                            completed: false
+                        }))
+                    }))
+                }));
+
+                saveToStorage();
+                renderSections();
+                showNotification('All items unchecked');
+            }
+
+            function uncheckSection(sectionId) {
+                sections = sections.map(section => {
+                    if (section.id === sectionId) {
+                        return {
+                            ...section,
+                            items: section.items.map(item => ({
+                                ...item,
+                                completed: false,
+                                subitems: (item.subitems || []).map(subitem => ({
+                                    ...subitem,
+                                    completed: false
+                                }))
+                            }))
+                        };
+                    }
+                    return section;
+                });
+
+                saveToStorage();
+                renderSections();
+                showNotification('Section items unchecked');
+            }
+
+            // Reset Function
+            function resetData() {
+                if (!confirm('Are you sure you want to reset all data? This cannot be undone!')) return;
+                sections = [];
+                saveToStorage();
+                renderSections();
+                showNotification('All data has been reset');
+            }
+
+            // Utility Functions
+            function clearItemModal() {
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemCount').value = '';
+                document.getElementById('itemDescription').value = '';
+                document.getElementById('itemUrl').value = '';
+                document.getElementById('itemHasSubitems').checked = false;
+                document.getElementById('subitemsContainer').style.display = 'none';
+                document.getElementById('subitemsList').innerHTML = '';
+            }
+
+            // Event Listeners
+            document.getElementById('itemHasSubitems').addEventListener('change', function () {
+                document.getElementById('subitemsContainer').style.display =
+                    this.checked ? 'block' : 'none';
+                if (this.checked && !document.querySelector('.subitem-field')) {
+                    addSubitemField();
+                }
+            });
+
+            // Keyboard Shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    hideModals();
+                }
+                if (e.key === 'Enter' && !e.shiftKey &&
+                    document.activeElement.tagName !== 'TEXTAREA') {
+                    const activeModal = document.querySelector('.modal.active');
+                    if (activeModal) {
+                        if (activeModal.closest('#sectionModal')) addSection();
+                        else if (activeModal.closest('#itemModal')) saveItem();
+                        else if (activeModal.closest('#subitemModal')) saveSubitem();
+                        else if (activeModal.closest('#importModal')) importData();
+                    }
+                }
+            });
+
+            // Touch Events for Mobile
+            document.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+            function showImportModal() {
+                document.getElementById('importModal').classList.add('active');
+                document.querySelector('#importModal .modal').classList.add('active');
+                setTimeout(() => document.getElementById('importKey').focus(), 100);
+            }
+
+            // Ensure it's added to the window assignments at the bottom of your script
+            window.showImportModal = showImportModal;
+            // Make functions globally available
+            window.showAddSectionModal = showAddSectionModal;
+            window.hideModals = hideModals;
+            window.addSection = addSection;
+            window.deleteSection = deleteSection;
+            window.addItemToSection = addItemToSection;
+            window.editItem = editItem;
+            window.saveItem = saveItem;
+            window.deleteItem = deleteItem;
+            window.toggleItem = toggleItem;
+            window.toggleItemContent = toggleItemContent;
+            window.addSubitemField = addSubitemField;
+            window.removeSubitemField = removeSubitemField;
+            window.editSubitem = editSubitem;
+            window.saveSubitem = saveSubitem;
+            window.deleteSubitem = deleteSubitem;
+            window.toggleSubitem = toggleSubitem;
+            window.toggleSubitemContent = toggleSubitemContent;
+            window.uncheckAll = uncheckAll;
+            window.uncheckSection = uncheckSection;
+            window.exportData = exportData;
+            window.importData = importData;
+            window.resetData = resetData;
+
+            // Initialize
+            renderSections();
+        });
+    </script>
+</body>
+
+</html>
