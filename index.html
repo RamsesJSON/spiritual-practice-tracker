@@ -8,11 +8,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Import Fonts */
+        /* Imports and Variables */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
 
-        /* Variables */
         :root {
+            /* Colors */
             --bg-primary: #0a0a0f;
             --bg-secondary: #161622;
             --accent: #6b21a8;
@@ -22,21 +22,6 @@
             --gold: #ffd700;
             --danger: #dc2626;
             --link: #3b82f6;
-            --dropdown-bg: rgba(107, 33, 168, 0.2);
-
-            /* Common alpha values */
-            --alpha-low: 0.05;
-            --alpha-medium: 0.1;
-            --alpha-high: 0.2;
-
-            /* Shadows */
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.2);
-
-            /* Animations */
-            --transition-fast: 0.3s ease;
-            --transition-medium: 0.5s ease;
 
             /* Spacing */
             --spacing-xs: 0.25rem;
@@ -49,6 +34,9 @@
             --radius-sm: 0.3rem;
             --radius-md: 0.5rem;
             --radius-lg: 1rem;
+
+            /* Transitions */
+            --transition-fast: 0.3s ease;
         }
 
         /* Reset & Base Styles */
@@ -66,86 +54,46 @@
             min-height: 100vh;
             padding: var(--spacing-xl) var(--spacing-md);
             background-image:
-                url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"),
                 radial-gradient(circle at top right, rgba(107, 33, 168, 0.15) 0%, transparent 70%),
                 radial-gradient(circle at bottom left, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
             background-attachment: fixed;
             font-size: 1.1rem;
-            letter-spacing: 0.02em;
         }
 
-        /* Layout */
+        /* Container Layout */
         .container {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 4rem);
             max-width: 1200px;
             margin: 0 auto;
-            position: relative;
+            padding: 0 var(--spacing-md);
         }
 
-        /* Header & Title */
+        /* Header Styles */
         header {
             text-align: center;
             margin-bottom: var(--spacing-xl);
             padding: var(--spacing-xl) 0;
-            position: relative;
-            background: linear-gradient(180deg,
-                    rgba(107, 33, 168, 0.1) 0%,
-                    transparent 100%);
-            border-radius: var(--radius-lg);
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         h1 {
             font-family: 'Cinzel', serif;
             font-size: clamp(2rem, 5vw, 3.5rem);
-            margin: 0 auto var(--spacing-lg);
-            max-width: 90%;
             background: linear-gradient(45deg, var(--gold), var(--accent-light) 50%, var(--gold));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 30px rgba(147, 51, 234, 0.3);
-            letter-spacing: 0.1em;
-            position: relative;
-            display: inline-block;
+            margin-bottom: var(--spacing-lg);
         }
 
-        h1::before,
-        h1::after {
-            content: '✧';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gold);
-            opacity: 0.6;
-            font-size: 0.8em;
-        }
-
-        h1::before {
-            left: -2em;
-        }
-
-        h1::after {
-            right: -2em;
-        }
-
-        /* Controls */
+        /* Controls Bar */
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: var(--spacing-md);
             justify-content: center;
             margin: var(--spacing-xl) 0;
-            padding: 0 var(--spacing-md);
         }
 
         .btn {
@@ -160,37 +108,15 @@
             align-items: center;
             gap: var(--spacing-sm);
             transition: all var(--transition-fast);
-            letter-spacing: 0.05em;
-            position: relative;
-            overflow: hidden;
             min-width: 160px;
             justify-content: center;
             font-size: 1rem;
             text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.2),
-                    transparent);
-            transition: var(--transition-medium);
         }
 
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(107, 33, 168, 0.3);
-        }
-
-        .btn:hover::before {
-            left: 100%;
         }
 
         .btn-danger {
@@ -202,47 +128,80 @@
             border: 1px solid var(--accent);
         }
 
-        /* Section Styles */
+        /* Sections Grid */
         .sections {
+            flex: 1;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
             gap: var(--spacing-xl);
-            padding: var(--spacing-md);
             margin-bottom: var(--spacing-xl);
         }
 
+        /* Credit */
+        .credit {
+            position: relative;
+            width: fit-content;
+            max-width: calc(100% - 2rem);
+            margin: var(--spacing-xl) auto;
+            padding: 0.8rem 1.2rem;
+            background: rgba(107, 33, 168, 0.2);
+            border-radius: 1.5rem;
+            font-family: 'Cinzel', serif;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            text-align: center;
+        }
+
+        .credit a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .credit a:hover {
+            color: var(--accent-light);
+        }
+
+        /* Responsive Base Layout */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+
+            .btn {
+                width: 100%;
+                min-width: unset;
+                padding: var(--spacing-sm) var(--spacing-md);
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .credit {
+                margin: var(--spacing-lg) auto;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Section Styles */
         .section {
+            position: relative;
             background: var(--bg-secondary);
             border-radius: var(--radius-lg);
             padding: var(--spacing-xl);
-            box-shadow: var(--shadow-md);
-            transition: all var(--transition-medium);
-            animation: fadeIn 0.5s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(147, 51, 234, 0.1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-light));
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-        }
-
-        .section:hover::before {
-            opacity: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .section:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
 
         .section-header {
@@ -252,300 +211,158 @@
             margin-bottom: var(--spacing-lg);
             padding-bottom: var(--spacing-md);
             border-bottom: 2px solid rgba(147, 51, 234, 0.2);
-            position: relative;
         }
 
         .section-title {
             font-family: 'Cinzel', serif;
             color: var(--gold);
             font-size: 1.6rem;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
         }
 
-        .section-controls {
-            display: flex;
-            gap: var(--spacing-sm);
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background: rgba(107, 33, 168, 0.1);
+            border-radius: var(--radius-md);
+            height: 24px;
+            position: relative;
+            margin: var(--spacing-md) 0;
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            transition: width 0.3s ease;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            line-height: 24px;
+            color: var(--text);
+            font-weight: 600;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+            z-index: 1;
         }
 
         /* Drag Handles */
-        .drag-handle {
-            opacity: 1 !important;
-            /* Override the previous hover-only visibility */
-            cursor: grab;
-            padding: var(--spacing-sm);
-            border-radius: 50%;
-            background: rgba(147, 51, 234, 0.1);
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-        }
-
         .section-drag-handle {
             position: absolute;
             left: -15px;
             top: 50%;
             transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(147, 51, 234, 0.1);
+            transition: all var(--transition-fast);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Add hover effect for drag handles */
+        /* Section Responsive */
+        @media (max-width: 768px) {
+            .section {
+                padding: var(--spacing-md);
+                margin: 0 var(--spacing-sm);
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .section-drag-handle {
+                left: -10px;
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-drag-handle {
+                display: none;
+            }
+
+            .progress-container {
+                height: 20px;
+            }
+
+            .progress-text {
+                line-height: 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Items List */
+        .items {
+            list-style: none;
+        }
+
+        /* Item Base Styles */
+        .item,
+        .subitem {
+            background: rgba(107, 33, 168, 0.1);
+            border-radius: var(--radius-md);
+            margin: var(--spacing-md) 0;
+            border: 1px solid rgba(147, 51, 234, 0.1);
+        }
+
+        /* Item Header Base Layout */
+        .item-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md);
+            background: rgba(107, 33, 168, 0.05);
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+            min-height: 60px;
+        }
+
+        /* Left Side Group (Drag + Checkbox) */
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            flex-shrink: 0;
+        }
+
+        /* Drag Handle */
+        .drag-handle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(147, 51, 234, 0.1);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(226, 226, 226, 0.7);
+            transition: all var(--transition-fast);
+        }
+
         .drag-handle:hover {
             background: rgba(147, 51, 234, 0.2);
             transform: scale(1.1);
         }
 
         .drag-handle i {
-            color: rgba(226, 226, 226, 0.7);
-            transition: color var(--transition-fast);
+            font-size: 1rem;
         }
 
-        .drag-handle:hover i {
-            color: var(--gold);
-        }
-
-        .drag-handle.dragging {
-            background: var(--accent);
-            cursor: grabbing;
-        }
-
-        /* Item Styles */
-        .items {
-            list-style: none;
-        }
-
-        .item {
-            margin: var(--spacing-md) 0;
-            background: rgba(107, 33, 168, 0.1);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-fast);
-            position: relative;
-            border: 1px solid rgba(147, 51, 234, 0.1);
-            overflow: hidden;
-        }
-
-        .item-header {
-            padding: var(--spacing-md);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-md);
-            background: rgba(107, 33, 168, 0.05);
-            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
-        }
-
-        .item-drag-handle {
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-        }
-
-        .item:hover .item-drag-handle {
-            opacity: 1;
-        }
-
-        .item-content {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            user-select: none;
-        }
-
-        .item-name {
-            font-size: 1.1rem;
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .item-count {
-            padding: 0.2rem 0.8rem;
-            background: rgba(147, 51, 234, 0.2);
-            border-radius: 1rem;
-            font-size: 0.9rem;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        .item-controls {
-            display: flex;
-            gap: var(--spacing-sm);
-            margin-left: auto;
-            opacity: 0.6;
-            transition: opacity var(--transition-fast);
-        }
-
-        .item:hover .item-controls {
-            opacity: 1;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all var(--transition-fast);
-            position: relative;
-            z-index: 2;
-        }
-
-        .icon-btn:hover {
-            background: rgba(147, 51, 234, 0.2);
-            color: var(--gold);
-            transform: scale(1.1);
-        }
-
-        /* Dropdown Content */
-        .dropdown-content {
-    display: none; /* Add this line */
-    padding: var(--spacing-lg);
-    background: rgba(22, 22, 34, 0.5);
-    margin: 0;
-    width: 100%;
-}
-
-        .item.expanded .dropdown-content {
-            display: block;
-            animation: slideDown var(--transition-fast);
-        }
-
-        .item.expanded .dropdown-content,
-.subitem.expanded .dropdown-content {
-    display: block;
-    animation: slideDown var(--transition-fast);
-}
-
-        .description {
-            color: #a8a8a8;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            margin-bottom: var(--spacing-md);
-            padding: var(--spacing-md);
-            background: rgba(107, 33, 168, 0.05);
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--accent);
-        }
-
-        .item-link {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            color: var(--link);
-            text-decoration: none;
-            transition: all var(--transition-fast);
-            padding: var(--spacing-sm);
-            border-radius: var(--radius-sm);
-            background: rgba(59, 130, 246, 0.1);
-            margin-top: var(--spacing-sm);
-        }
-
-        .item-link:hover {
-            color: var(--gold);
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        /* Subitem Styles */
-        .subitems {
-            list-style: none;
-            margin: var(--spacing-xl) 0;
-            padding-left: var(--spacing-xl);
-            border-left: 2px solid rgba(147, 51, 234, 0.3);
-            width: 100%;
-        }
-
-        .item-drag-handle,
-        .subitem-drag-handle {
-            opacity: 1 !important;
-        }
-
-        .subitem {
-            margin: var(--spacing-md) 0;
-            background: rgba(107, 33, 168, 0.05);
-            border-radius: var(--radius-md);
-            position: relative;
-            transition: all var(--transition-fast);
-            width: calc(100% - var(--spacing-lg));
-        }
-
-        .subitem::before {
-            content: '';
-            position: absolute;
-            left: -1.5rem;
-            top: 50%;
-            width: 1rem;
-            height: 2px;
-            background: rgba(147, 51, 234, 0.3);
-            transition: width var(--transition-fast);
-        }
-
-        .subitem:hover::before {
-            width: 1.25rem;
-            background: var(--accent);
-        }
-
-        .subitem .item-header {
-            padding: var(--spacing-md) var(--spacing-lg);
-            gap: var(--spacing-md);
-        }
-
-        .subitem .description {
-            margin: 0 var(--spacing-md) var(--spacing-md);
-            background: rgba(107, 33, 168, 0.1);
-        }
-
-        .subitem .item-content {
-            min-width: 0;
-            /* Allows text truncation to work */
-        }
-
-        .subitem .item-name {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Expand Indicator */
-        .expand-indicator {
-    width: 26px;
-    height: 26px;
-    background: rgba(147, 51, 234, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition-fast);
-    margin-left: auto;
-    cursor: pointer;
-}
-
-.expand-indicator i {
-    transition: transform var(--transition-fast);
-    font-size: 0.8rem;
-    color: var(--text);
-}
-
-.item.expanded .expand-indicator,
-.subitem.expanded .expand-indicator {
-    background: var(--accent);
-}
-
-.item.expanded .expand-indicator i,
-.subitem.expanded .expand-indicator i {
-    transform: rotate(180deg);
-}
-        /* Checkbox Styles */
+        /* Checkbox */
         .checkbox-wrapper {
             display: flex;
             align-items: center;
-            gap: var(--spacing-sm);
+            flex-shrink: 0;
         }
 
         .custom-checkbox {
@@ -556,9 +373,8 @@
             appearance: none;
             cursor: pointer;
             position: relative;
-            flex-shrink: 0;
-            transition: all var(--transition-fast);
             background: rgba(107, 33, 168, 0.1);
+            transition: all var(--transition-fast);
         }
 
         .custom-checkbox:checked {
@@ -576,6 +392,242 @@
             transform: translate(-50%, -50%);
         }
 
+        /* Content Area */
+        .item-content {
+            display: flex;
+            flex: 1;
+            min-width: 0;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Name Container */
+        .item-name-container {
+            display: flex;
+            flex: 1;
+            min-width: 0;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            word-break: break-word;
+            overflow-wrap: break-word;
+            min-width: 0;
+            flex: 1;
+            padding-right: var(--spacing-sm);
+        }
+
+        /* Count Badge */
+        .item-count {
+            background: rgba(147, 51, 234, 0.2);
+            padding: 0.2rem 0.8rem;
+            border-radius: 1rem;
+            color: var(--gold);
+            font-weight: 600;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        /* Controls */
+        .item-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-fast);
+        }
+
+        .icon-btn:hover {
+            background: rgba(147, 51, 234, 0.2);
+            color: var(--gold);
+        }
+
+        /* Dropdown Content */
+        .dropdown-content {
+            display: none;
+            padding: var(--spacing-lg);
+            background: rgba(22, 22, 34, 0.5);
+            width: 100%;
+        }
+
+        .item.expanded .dropdown-content,
+        .subitem.expanded .dropdown-content {
+            display: block;
+        }
+
+        /* Description */
+        .description {
+            color: #a8a8a8;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            padding: var(--spacing-md);
+            background: rgba(107, 33, 168, 0.05);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--accent);
+            margin: var(--spacing-sm) 0;
+            width: 100%;
+            word-break: break-word;
+        }
+
+        /* Links */
+        .item-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            color: var(--link);
+            text-decoration: none;
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            background: rgba(59, 130, 246, 0.1);
+            margin-top: var(--spacing-sm);
+            word-break: break-all;
+            width: 100%;
+        }
+
+        .item-link:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--gold);
+        }
+
+        /* Subitems */
+        .subitems {
+            list-style: none;
+            margin: var(--spacing-lg) 0;
+            padding-left: var(--spacing-xl);
+            border-left: 2px solid rgba(147, 51, 234, 0.3);
+            width: 100%;
+        }
+
+        .subitem {
+            width: calc(100% - var(--spacing-lg));
+        }
+
+        /* Expand Indicator */
+        .expand-indicator {
+            width: 26px;
+            height: 26px;
+            background: rgba(147, 51, 234, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .expand-indicator i {
+            transition: transform var(--transition-fast);
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+
+        .item.expanded .expand-indicator i,
+        .subitem.expanded .expand-indicator i {
+            transform: rotate(180deg);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .item-header {
+                gap: var(--spacing-xs);
+                padding: var(--spacing-sm);
+            }
+
+            .item-content {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: var(--spacing-sm);
+            }
+
+            .item-name-container {
+                width: 100%;
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .item-name {
+                font-size: 1rem;
+            }
+
+            .item-count {
+                font-size: 0.85rem;
+                padding: 0.15rem 0.5rem;
+            }
+
+            .drag-handle {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .item-header {
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+
+            .item-content {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .item-name-container {
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .item-name {
+                font-size: 0.95rem;
+            }
+
+            .item-controls {
+                width: 100%;
+                justify-content: flex-start;
+                margin-top: var(--spacing-xs);
+            }
+
+            .subitems {
+                padding-left: var(--spacing-md);
+            }
+
+            .drag-handle {
+                display: none;
+            }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) {
+            .drag-handle {
+                display: none;
+            }
+
+            .icon-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .item-header {
+                min-height: 54px;
+            }
+        }
+
         /* Modal Styles */
         .modal-overlay {
             position: fixed;
@@ -588,24 +640,16 @@
             padding: var(--spacing-xl) var(--spacing-md);
         }
 
-        .modal-overlay.active {
-            display: block;
-            animation: fadeIn var(--transition-fast);
-        }
-
         .modal {
-            position: relative;
             background: var(--bg-secondary);
             padding: var(--spacing-xl);
             border-radius: var(--radius-lg);
-            z-index: 1000;
             width: 90%;
             max-width: 600px;
             margin: 0 auto;
             border: 1px solid rgba(147, 51, 234, 0.3);
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            display: none;
-            overflow: hidden;
+            position: relative;
         }
 
         .modal::before {
@@ -618,18 +662,12 @@
             background: linear-gradient(90deg, var(--accent), var(--accent-light));
         }
 
-        .modal.active {
-            display: block;
-            animation: modalSlideIn var(--transition-fast);
-        }
-
         .modal h2 {
             font-family: 'Cinzel', serif;
             color: var(--gold);
             margin-bottom: var(--spacing-lg);
             text-align: center;
             font-size: 1.8rem;
-            position: relative;
         }
 
         /* Form Styles */
@@ -656,7 +694,6 @@
             font-family: inherit;
             font-size: 1rem;
             transition: all var(--transition-fast);
-            resize: vertical;
         }
 
         .input-group input:focus,
@@ -664,52 +701,6 @@
             outline: none;
             border-color: var(--gold);
             box-shadow: 0 0 10px rgba(147, 51, 234, 0.2);
-        }
-
-        /* Notification Styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: var(--spacing-md) var(--spacing-lg);
-            border-radius: var(--radius-md);
-            background: var(--accent);
-            color: var(--text);
-            z-index: 1000;
-            animation: slideIn var(--transition-fast);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            min-width: 300px;
-        }
-
-        .notification i {
-            font-size: 1.2rem;
-        }
-
-        .notification.success {
-            background: var(--completed);
-        }
-
-        .notification.error {
-            background: var(--danger);
-        }
-
-        /* Drag and Drop States */
-        .drag-ghost {
-            opacity: 0.5;
-            background: var(--accent);
-            border: 2px dashed var(--gold);
-        }
-
-        .drag-over {
-            border: 2px dashed var(--gold);
-        }
-
-        .dragging {
-            opacity: 0.5;
-            cursor: grabbing;
         }
 
         /* Animations */
@@ -735,208 +726,733 @@
             }
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
+        .modal-overlay.active,
+        .modal.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
 
-            to {
-                opacity: 1;
-                transform: translateX(0);
+        .dropdown-content {
+            animation: slideDown var(--transition-fast);
+        }
+
+        /* Drag and Drop States */
+        .drag-ghost {
+            opacity: 0.5;
+            background: var(--accent);
+            border: 2px dashed var(--gold);
+        }
+
+        .drag-over {
+            border: 2px dashed var(--gold);
+        }
+
+        .dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(107, 33, 168, 0.1);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
         }
 
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translate3d(0, -50px, 0);
+        :focus-visible {
+            outline: 2px solid var(--accent-light);
+            outline-offset: 2px;
+        }
+
+        /* High Contrast Mode */
+        @media (forced-colors: active) {
+
+            .section,
+            .item,
+            .subitem {
+                border: 1px solid CanvasText;
             }
 
-            to {
-                opacity: 1;
-                transform: translate3d(0, 0, 0);
+            .progress-bar {
+                background: Highlight;
+            }
+
+            .custom-checkbox:checked {
+                background: Highlight;
             }
         }
 
-        /* Responsive Design */
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-light);
+        }
+
+        /* Selection Style */
+        ::selection {
+            background: var(--accent);
+            color: var(--text);
+        }
+
+        /* Modal Responsive */
         @media (max-width: 768px) {
-            :root {
-                --spacing-md: 0.75rem;
-                --spacing-lg: 1.25rem;
-                --spacing-xl: 1.5rem;
-            }
-
-            .sections {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-lg);
-            }
-
-            .controls {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            .section {
-                padding: var(--spacing-lg);
-            }
-
             .modal {
                 width: 95%;
-                padding: var(--spacing-lg);
+                padding: var(--spacing-md);
             }
 
-            .section-title {
-                font-size: 1.4rem;
+            .modal h2 {
+                font-size: 1.5rem;
             }
 
-            .drag-handle {
-                opacity: 1;
-                width: 26px;
-                height: 26px;
+            .input-group label {
+                font-size: 1rem;
             }
 
-            .item-controls {
-                opacity: 1;
+            .input-group input,
+            .input-group textarea {
+                padding: var(--spacing-sm);
             }
         }
 
         @media (max-width: 480px) {
-            body {
+            .modal-overlay {
                 padding: var(--spacing-sm);
             }
 
-            .section {
-                padding: var(--spacing-md);
-            }
-
-            .item-header {
-                flex-wrap: wrap;
-            }
-
-            .item-controls {
+            .modal {
                 width: 100%;
-                justify-content: flex-end;
-                margin-top: var(--spacing-sm);
+                margin: 0;
             }
         }
 
-        /* Replace the existing credit style with this enhanced version */
-        .credit {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: rgba(107, 33, 168, 0.2);
-            padding: 0.8rem 1.2rem;
-            border-radius: 1.5rem;
-            font-size: 1rem;
-            color: var(--text);
-            text-align: right;
-            font-family: 'Cinzel', serif;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-            transition: all var(--transition-fast);
-            transform-origin: right;
-        }
+        /* Print Styles */
+        @media print {
+            body {
+                background: none;
+                color: #000;
+            }
 
-        .credit:hover {
-            transform: scale(1.05);
-            background: rgba(107, 33, 168, 0.3);
-            border-color: var(--gold);
-            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
-        }
+            .section {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                border: 1px solid #ccc;
+            }
 
-        .credit::before {
-            content: '✧';
-            color: var(--gold);
-            margin-right: 0.5rem;
-            opacity: 0.8;
-        }
-
-        .credit::after {
-            content: '✧';
-            color: var(--gold);
-            margin-left: 0.5rem;
-            opacity: 0.8;
-        }
-
-        .credit a {
-            color: var(--gold);
-            text-decoration: none;
-            transition: all var(--transition-fast);
-            font-weight: 600;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.3rem;
-        }
-
-        .credit a:hover {
-            color: var(--accent-light);
-            text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
+            .btn,
+            .controls,
+            .drag-handle,
             .credit {
-                bottom: 1rem;
-                right: 1rem;
-                font-size: 0.9rem;
-                padding: 0.6rem 1rem;
+                display: none;
             }
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 1400px) {
-            .sections {
-                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            }
+        /* Performance Optimizations */
+        .section,
+        .item,
+        .subitem,
+        .modal {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            will-change: transform;
         }
 
-        @media (max-width: 768px) {
-            .sections {
-                grid-template-columns: 1fr;
-            }
-
-            .subitems {
-                padding-left: var(--spacing-md);
-                margin: var(--spacing-lg) 0;
-            }
-
-            .subitem {
-                width: calc(100% - var(--spacing-md));
-            }
-
-            .subitem .item-header {
-                padding: var(--spacing-md);
-                flex-wrap: wrap;
-            }
-
-            .item-controls {
-                margin-top: var(--spacing-sm);
-            }
+        .meditation-list {
+            max-height: none;
+            background: transparent;
+            padding: 0;
+            border-radius: 0;
         }
 
-        /* Add smooth transitions for section width changes */
-        .section {
-            transition: all var(--transition-fast), width 0.3s ease-in-out;
+        .meditation-item {
+            margin-bottom: var(--spacing-sm);
+            transition: all var(--transition-fast);
         }
 
-        /* Ensure content doesn't overflow */
-        .item-content {
+        .meditation-item:hover {
+            background: rgba(107, 33, 168, 0.2);
+        }
+
+        .meditation-checkbox {
+            margin-top: 0.3rem;
+        }
+
+        .meditation-content {
+            flex: 1;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            margin-left: var(--spacing-sm);
+            vertical-align: middle;
+        }
+
+        .level-badge.beginner {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .level-badge.intermediate {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .level-badge.advanced {
+            background: rgba(220, 38, 38, 0.2);
+            color: #dc2626;
+        }
+
+        .meditation-item.beginner {
+            border-left: 3px solid #22c55e;
+        }
+
+        .meditation-item.intermediate {
+            border-left: 3px solid #eab308;
+        }
+
+        .meditation-item.advanced {
+            border-left: 3px solid #dc2626;
+        }
+
+        .meditation-name {
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .meditation-description {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .meditation-count {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            background: rgba(147, 51, 234, 0.2);
+            border-radius: 1rem;
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        .section-select {
+            width: 100%;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--accent);
+            background: var(--bg-primary);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .meditation-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .meditation-section-header {
+            background: rgba(107, 33, 168, 0.2);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-bottom: none;
+        }
+
+        .meditation-section-title {
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .meditation-section-description {
+            color: var(--text);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .meditation-section-content {
+            background: rgba(107, 33, 168, 0.1);
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            padding: var(--spacing-md);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-top: none;
+        }
+
+        /* Meditation List Layout */
+        .meditation-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: var(--spacing-lg) 0;
+        }
+
+        /* Meditation Item */
+        .meditation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            border: 1px solid rgba(147, 51, 234, 0.1);
+            transition: all var(--transition-fast);
+        }
+
+        .meditation-item:hover {
+            background: rgba(107, 33, 168, 0.2);
+        }
+
+        /* Meditation Checkbox */
+        .meditation-checkbox {
+            width: 1.2rem;
+            height: 1.2rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        /* Meditation Content */
+        .meditation-content {
             flex: 1;
             min-width: 0;
+        }
+
+        .meditation-name {
+            font-weight: 600;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-xs);
             display: flex;
             align-items: center;
             gap: var(--spacing-sm);
         }
 
-        .description {
-            white-space: pre-wrap;
-            word-break: break-word;
+        .meditation-description {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+
+        .meditation-count {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.8rem;
+            background: rgba(147, 51, 234, 0.2);
+            border-radius: 1rem;
+            color: var(--gold);
+            font-size: 0.9rem;
+        }
+
+        /* Section Headers */
+        .meditation-section {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .meditation-section-header {
+            background: rgba(107, 33, 168, 0.2);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-bottom: none;
+        }
+
+        .meditation-section-title {
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            margin-bottom: var(--spacing-xs);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .meditation-section-description {
+            color: var(--text);
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .meditation-section-content {
+            background: rgba(107, 33, 168, 0.1);
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            padding: var(--spacing-lg);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-top: none;
+        }
+
+        /* Level Badges */
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .level-badge.beginner {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .level-badge.intermediate {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+        }
+
+        .level-badge.advanced {
+            background: rgba(220, 38, 38, 0.2);
+            color: #dc2626;
+        }
+
+        /* Section Select */
+        .section-select {
+            width: 100%;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--accent);
+            background: var(--bg-primary);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* Colored Borders */
+        .meditation-item.beginner {
+            border-left: 3px solid #22c55e;
+        }
+
+        .meditation-item.intermediate {
+            border-left: 3px solid #eab308;
+        }
+
+        .meditation-item.advanced {
+            border-left: 3px solid #dc2626;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .meditation-item {
+                padding: var(--spacing-sm);
+                gap: var(--spacing-sm);
+            }
+
+            .meditation-section-header {
+                padding: var(--spacing-md);
+            }
+
+            .meditation-section-content {
+                padding: var(--spacing-md);
+            }
+
+            .meditation-name {
+                font-size: 1rem;
+            }
+
+            .meditation-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .meditation-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-xs);
+            }
+
+            .level-badge {
+                align-self: flex-start;
+            }
+        }
+
+        .subitem.drag-over {
+            border: 2px dashed var(--gold);
+            position: relative;
+        }
+
+        /* Drop position indicators */
+        .subitem.drag-over[data-drop-position="before"]::before,
+        .subitem.drag-over[data-drop-position="after"]::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold);
+            z-index: 1;
+        }
+
+        .subitem.drag-over[data-drop-position="before"]::before {
+            top: -2px;
+        }
+
+        .subitem.drag-over[data-drop-position="after"]::before {
+            bottom: -2px;
+        }
+
+        /* Enhanced visual feedback */
+        .subitem.drag-over[data-drop-position]::after {
+            content: '';
+            position: absolute;
+            left: -1px;
+            width: 4px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .subitem.drag-over[data-drop-position="before"]::after {
+            top: -5px;
+        }
+
+        .subitem.drag-over[data-drop-position="after"]::after {
+            bottom: -5px;
+        }
+
+        /* Ensure proper z-index stacking */
+        .item.expanded .dropdown-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .dragging {
+            z-index: 2;
+        }
+
+        /* Animated Background */
+        body {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: var(--spacing-xl) var(--spacing-md);
+    background: var(--bg-primary);
+    font-size: 1.1rem;
+    /* Remove any animation or transition properties */
+}
+
+        /* Background effect container */
+        body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        var(--bg-primary) 0%,
+        rgba(107, 33, 168, 0.15) 50%,
+        var(--bg-primary) 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+}
+
+        /* Animated orbs */
+        body::after {
+    display: none;
+}
+
+        /* Floating animation for background orbs */
+        @keyframes orbFloat {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(-2%, 2%);
+    }
+    50% {
+        transform: translate(2%, -2%);
+    }
+    75% {
+        transform: translate(-2%, -2%);
+    }
+    100% {
+        transform: translate(2%, 2%);
+    }
+}
+
+        /* Add subtle floating animation to sections */
+        .section {
+            animation: sectionFloat 6s ease-in-out infinite alternate;
+            animation-delay: calc(var(--section-index, 0) * 0.5s);
+        }
+
+        @keyframes sectionFloat {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Add shimmer effect to gold elements */
+        h1,
+        .meditation-name,
+        .section-title {
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1::after,
+        .meditation-name::after,
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 215, 0, 0.2),
+                    transparent);
+            animation: shimmer 6s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            20%,
+            100% {
+                left: 200%;
+            }
+        }
+
+        /* Subtle pulse animation for progress bars */
+        .progress-bar {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.1),
+                    transparent);
+            animation: progressPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes progressPulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Optimize performance */
+        @media (prefers-reduced-motion: reduce) {
+
+            body::after,
+            .section,
+            h1::after,
+            .meditation-name::after,
+            .section-title::after,
+            .progress-bar::after {
+                animation: none;
+            }
+        }
+
+        /* Disable text selection during drag */
+        .item,
+        .subitem,
+        .item-name,
+        .item-content,
+        .drag-handle {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* Ensure proper drag hover states */
+        .subitem.drag-over {
+            border: 2px dashed var(--gold);
+            position: relative;
+        }
+
+        .subitem.drag-over::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gold);
+            z-index: 1;
+        }
+
+        .subitem.drag-over[data-drop-position="before"]::before {
+            top: -1px;
+        }
+
+        .subitem.drag-over[data-drop-position="after"]::before {
+            bottom: -1px;
+        }
+
+        .subitems {
+            min-height: 40px;
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .subitem .drag-handle {
+            opacity: 0.7;
+        }
+
+        .subitem:hover .drag-handle {
+            opacity: 1;
         }
     </style>
 </head>
@@ -948,6 +1464,9 @@
             <div class="controls">
                 <button class="btn" onclick="showAddSectionModal()">
                     <i class="fas fa-plus"></i> Add Section
+                </button>
+                <button class="btn" onclick="showMeditationModal()">
+                    <i class="fas fa-om"></i> Add Meditations
                 </button>
                 <button class="btn" onclick="exportData()">
                     <i class="fas fa-download"></i> Export
@@ -961,6 +1480,7 @@
                 <button class="btn btn-danger" onclick="resetData()">
                     <i class="fas fa-trash-alt"></i> Reset All
                 </button>
+
             </div>
         </header>
 
@@ -970,13 +1490,13 @@
     <!-- Add Section Modal -->
     <div class="modal-overlay" id="sectionModal">
         <div class="modal">
-            <h2>Add New Section</h2>
+            <h2 id="sectionModalTitle">Add New Section</h2>
             <div class="input-group">
                 <label>Section Name</label>
                 <input type="text" id="sectionName" placeholder="Enter section name...">
             </div>
             <div class="controls">
-                <button class="btn" onclick="addSection()">
+                <button class="btn" id="saveSectionBtn" onclick="saveSection()">
                     <i class="fas fa-plus"></i> Add
                 </button>
                 <button class="btn" onclick="hideModals()">
@@ -1026,6 +1546,7 @@
                     <i class="fas fa-times"></i> Cancel
                 </button>
             </div>
+
         </div>
     </div>
 
@@ -1079,6 +1600,30 @@
         </div>
     </div>
 
+    <!-- Meditation Preset Modal -->
+    <div class="modal-overlay" id="meditationModal">
+        <div class="modal">
+            <h2>Add Meditations</h2>
+            <div class="input-group">
+                <label>Select Section</label>
+                <select id="meditationSectionSelect" class="section-select">
+                    <!-- Will be populated dynamically -->
+                </select>
+            </div>
+            <div class="meditation-list">
+                <!-- Will be populated with meditation presets -->
+            </div>
+            <div class="controls">
+                <button class="btn" onclick="addSelectedMeditations()">
+                    <i class="fas fa-plus"></i> Add Selected
+                </button>
+                <button class="btn" onclick="hideModals()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Template for subitem field -->
     <template id="subitemFieldTemplate">
         <div class="subitem-field"
@@ -1107,9 +1652,8 @@
     </template>
 
     <div class="credit">
-        Created by <a href="https://ancient-forums.com/members/ramses13th.73169/"
-            target="_blank">@ramses13th</a> from  <a href="https://ancient-forums.com/"
-            target="_blank">ancient-forums.com</a>
+        Created by <a href="https://ancient-forums.com/members/ramses13th.73169/" target="_blank">@ramses13th</a> from
+        <a href="https://ancient-forums.com/" target="_blank">ancient-forums.com</a>
     </div>
 
     <script>
@@ -1123,6 +1667,214 @@
             let draggedSection = null;
             let dragTimeout = null;
             let isDragging = false;
+
+            // Updated meditation presets structure with difficulty levels
+            const meditationPresets = {
+                beginner: {
+                    title: "Basics",
+                    description: "Foundational practices.",
+                    items: [
+                        {
+                            id: "chakra-alignment",
+                            name: "Chakra Alignment",
+                            description: "Align your Chakras.",
+                            count: "",
+                            url: "https://joyofsatan.org/Chakra_Alignment.html"
+                        },
+                        {
+                            id: "energy-directing",
+                            name: "Directing Energy from Azazel",
+                            description: "Directing your Energy.",
+                            count: "10 Minutes",
+                            url: "https://joyofsatan.org/Directing_Energy.html"
+                        },
+                        {
+                            id: "energy-meditation",
+                            name: "Energy Meditation",
+                            description: "Sense Energy.",
+                            count: "10 Minutes",
+                            url: "https://joyofsatan.org/Energy_Meditation.html"
+                        },
+                        {
+                            id: "spin-chakras",
+                            name: "EZ Chakra Spin",
+                            description: "Spin your Chakras..",
+                            count: "",
+                            url: "https://joyofsatan.org/EZ_Chakra_Spin.html",
+                            subitems: [
+                                {
+                                    name: "Root",
+                                    count: "1 Minute",
+                                    description: "Sounds include thunder or a soft hissing. Red"
+                                },
+                                {
+                                    name: "Sacral",
+                                    count: "1 Minute",
+                                    description: "Roar like the ocean or the sound of wind. Orange"
+                                },
+                                {
+                                    name: "Solar",
+                                    count: "1 Minute",
+                                    description: "H-h-h-a-a-h-h-h sound (silent, like an exhale- no voice; long and continuous) or the sound of humming/vibration 'aum.' Yellow"
+                                },
+                                {
+                                    name: "Heart",
+                                    count: "1 Minute",
+                                    description: "Buzzing like a bee (bioelectricity) or the sound of a flute. Green"
+                                },
+                                {
+                                    name: "Throat",
+                                    count: "1 Minute",
+                                    description: "HPS Maxine : Azazel gave me a sound. The best way I can describe it is like twisting a balloon. Humming can also be used. Blue"
+                                },
+                                {
+                                    name: "Sixth",
+                                    count: "1 Minute",
+                                    description: "The sound of woodwind instruments. Bluish violet (indigo)"
+                                },
+                                {
+                                    name: "Crown",
+                                    count: "1 Minute",
+                                    description: "Whisper or no sound- this is felt rather than heard. Violet"
+                                },
+                            ]
+                        },
+                        {
+                            id: "flame-meditation",
+                            name: "Flame Meditation",
+                            description: "Focus",
+                            count: "10 Minutes",
+                            url: "https://joyofsatan.org/Directing_Energy.html"
+                        },
+                        {
+                            id: "full-chakra-meditation",
+                            name: "Full Chakra Meditation",
+                            description: "Empower your Chakras. Suggested affirmation : My X Chakra is completely Open, Active and Powerful permanently. x9",
+                            count: "",
+                            url: "https://joyofsatan.org/Full_Meditation.html",
+                            subitems: [
+                                {
+                                    name: "Root",
+                                    count: "40 LAUM",
+                                    description: "Sounds include thunder or a soft hissing. Red"
+                                },
+                                {
+                                    name: "Sacral",
+                                    count: "40 VAUM",
+                                    description: "Roar like the ocean or the sound of wind. Orange"
+                                },
+                                {
+                                    name: "Solar",
+                                    count: "40 RAUM",
+                                    description: "H-h-h-a-a-h-h-h sound (silent, like an exhale- no voice; long and continuous) or the sound of humming/vibration 'aum.' Yellow"
+                                },
+                                {
+                                    name: "Heart",
+                                    count: "40 AUM",
+                                    description: "Buzzing like a bee (bioelectricity) or the sound of a flute. Green"
+                                },
+                                {
+                                    name: "Throat",
+                                    count: "40 HAUM",
+                                    description: "HPS Maxine : Azazel gave me a sound. The best way I can describe it is like twisting a balloon. Humming can also be used. Blue"
+                                },
+                                {
+                                    name: "Sixth",
+                                    count: "40 YAUM",
+                                    description: "The sound of woodwind instruments. Bluish violet (indigo)"
+                                },
+                                {
+                                    name: "Crown",
+                                    count: "40 MAUM",
+                                    description: "Whisper or no sound- this is felt rather than heard. Violet"
+                                },
+                                {
+                                    name: "Third Eye",
+                                    count: "40 THAUM",
+                                    description: "White Gold"
+                                },
+                                {
+                                    name: "Pineal Gland",
+                                    count: "40 GAUM",
+                                    description: "White Gold"
+                                }
+                            ]
+                        },
+                        {
+                            id: "foundation-meditation",
+                            name: "Foundation Meditation",
+                            description: "Absorb Energy. Suggested Affirmation : My soul is completely open, active and powerful permanently. x9",
+                            count: "5 Minutes",
+                            url: "https://joyofsatan.org/Foundation_Meditation.html"
+                        },
+                        {
+                            id: "aura-cleaning",
+                            name: "Aura Cleaning",
+                            description: "Clean your soul.",
+                            count: "10 Minutes",
+                            url: "https://joyofsatan.org/Aura_Cleaning.html"
+                        }
+                        ,
+                        {
+                            id: "trance",
+                            name: "Trance",
+                            description: "",
+                            count: "20 Minutes",
+                            url: "https://joyofsatan.org/Trance.html"
+                        }
+                        ,
+                        {
+                            id: "aura-protection",
+                            name: "Aura of Protection",
+                            description: "Protect Yourself.",
+                            count: "",
+                            url: "https://joyofsatan.org/Protection.html"
+                        }
+                        ,
+                        {
+                            id: "clairaudience-points",
+                            name: "Open Clairaudience",
+                            description: "Astral Hearing.",
+                            count: "",
+                            url: "https://joyofsatan.org/Psychic_Centers.html"
+                        }
+                        ,
+                        {
+                            id: "clairvoyant-points",
+                            name: "Open Clairvoyance",
+                            description: "Astral Sight.",
+                            count: "",
+                            url: "https://joyofsatan.org/Clairvoyance_Points.html"
+                        }
+                        ,
+                        {
+                            id: "yoga-hatha",
+                            name: "Yoga Hatha",
+                            description: "Open energy pathways, balance soul.",
+                            count: "",
+                            url: "https://joyofsatan.org/Yoga2.html"
+                        } ,
+                        {
+                            id: "void-meditation",
+                            name: "Void Meditation",
+                            description: "Achieve mental clarity, laser point focus.",
+                            count: "",
+                            url: "https://joyofsatan.org/Satanic_Void_Meditation.html"
+                        }
+                        ,
+                        {
+                            id: "sound-meditation",
+                            name: "Sound Meditation",
+                            description: "Empower Astral Senses.",
+                            count: "",
+                            url: "https://joyofsatan.org/Satanic_Void_Meditation.html"
+                        }
+
+                        // Add more beginner meditations
+                    ]
+                } // add the same but change name
+            };
+
 
             // Utility Functions
             function generateId() {
@@ -1165,34 +1917,41 @@
             }
 
             // Render Functions
+            // Update the renderSections function to include an edit button
             function renderSections() {
                 const container = document.getElementById('sections');
                 container.innerHTML = sections.map(section => `
-                    <div class="section" data-id="${section.id}">
-                        <div class="drag-handle section-drag-handle" data-drag-type="section">
-                            <i class="fas fa-grip-vertical"></i>
-                        </div>
-                        <div class="section-header">
-                            <h2 class="section-title">${section.name}</h2>
-                            <div class="section-controls">
-                                <button class="icon-btn" onclick="addItemToSection('${section.id}')">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                                <button class="icon-btn" onclick="uncheckSection('${section.id}')">
-                                    <i class="fas fa-square"></i>
-                                </button>
-                                <button class="icon-btn" onclick="deleteSection('${section.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <ul class="items">
-                            ${renderItems(section.items)}
-                        </ul>
-                    </div>
-                `).join('');
+        <div class="section" data-id="${section.id}">
+            <div class="drag-handle section-drag-handle" data-drag-type="section">
+                <i class="fas fa-grip-vertical"></i>
+            </div>
+            <div class="section-header">
+                <h2 class="section-title">${section.name}</h2>
+                <div class="section-controls">
+                    <button class="icon-btn" onclick="addItemToSection('${section.id}')">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="icon-btn" onclick="editSection('${section.id}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="icon-btn" onclick="uncheckSection('${section.id}')">
+                        <i class="fas fa-square"></i>
+                    </button>
+                    <button class="icon-btn" onclick="deleteSection('${section.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: ${calculateSectionProgress(section)}%"></div>
+                <span class="progress-text">${calculateSectionProgress(section)}% Complete</span>
+            </div>
+            <ul class="items">
+                ${renderItems(section.items)}
+            </ul>
+        </div>
+    `).join('');
 
-                // Initialize drag handles after rendering
                 initializeDragHandles();
             }
 
@@ -1285,7 +2044,17 @@
                     </button>
                 </div>
             </div>
-            ${renderSubitemContent(subitem)}
+            <div class="dropdown-content" style="display: none;">
+                ${subitem.description ? `
+                    <div class="description">${subitem.description}</div>
+                ` : ''}
+                ${subitem.url ? `
+                    <a href="${subitem.url}" class="item-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>
+                        ${subitem.url}
+                    </a>
+                ` : ''}
+            </div>
         </li>
     `).join('');
             }
@@ -1335,7 +2104,7 @@
                     name,
                     items: []
                 });
-
+                saveSection();
                 saveToStorage();
                 renderSections();
                 hideModals();
@@ -1580,15 +2349,6 @@
                             otherIcon.classList.remove('fa-chevron-up');
                             otherIcon.classList.add('fa-chevron-down');
                         }
-                        // Close all subitems within this item
-                        expandedItem.querySelectorAll('.subitem.expanded').forEach(subitem => {
-                            subitem.classList.remove('expanded');
-                            const subitemIcon = subitem.querySelector('.expand-btn i');
-                            if (subitemIcon) {
-                                subitemIcon.classList.remove('fa-chevron-up');
-                                subitemIcon.classList.add('fa-chevron-down');
-                            }
-                        });
                     }
                 });
 
@@ -1603,11 +2363,36 @@
                 event.stopPropagation();
                 const subitem = document.querySelector(`.subitem[data-id="${subitemId}"]`);
                 const expandBtn = subitem.querySelector('.expand-btn i');
+                const wasExpanded = subitem.classList.contains('expanded');
+                const dropdownContent = subitem.querySelector('.dropdown-content');
 
+                // Close all other expanded subitems within the same parent item
+                const parentItem = subitem.closest('.item');
+                if (parentItem) {
+                    parentItem.querySelectorAll('.subitem.expanded').forEach(expandedSubitem => {
+                        if (expandedSubitem !== subitem) {
+                            expandedSubitem.classList.remove('expanded');
+                            const otherIcon = expandedSubitem.querySelector('.expand-btn i');
+                            if (otherIcon) {
+                                otherIcon.classList.remove('fa-chevron-up');
+                                otherIcon.classList.add('fa-chevron-down');
+                            }
+                            const otherDropdown = expandedSubitem.querySelector('.dropdown-content');
+                            if (otherDropdown) {
+                                otherDropdown.style.display = 'none';
+                            }
+                        }
+                    });
+                }
+
+                // Toggle current subitem
                 subitem.classList.toggle('expanded');
+                if (dropdownContent) {
+                    dropdownContent.style.display = wasExpanded ? 'none' : 'block';
+                }
                 if (expandBtn) {
-                    expandBtn.classList.toggle('fa-chevron-up');
-                    expandBtn.classList.toggle('fa-chevron-down');
+                    expandBtn.classList.toggle('fa-chevron-up', !wasExpanded);
+                    expandBtn.classList.toggle('fa-chevron-down', wasExpanded);
                 }
             }
 
@@ -1623,7 +2408,20 @@
                 }));
 
                 saveToStorage();
-                // Don't re-render the whole list, just update the checkbox state
+
+                // Update progress bar without full re-render
+                const sectionElement = document.querySelector(`.item[data-id="${itemId}"]`).closest('.section');
+                const sectionId = sectionElement.dataset.id;
+                const section = sections.find(s => s.id === sectionId);
+                const progress = calculateSectionProgress(section);
+
+                // Update progress bar and text
+                const progressBar = sectionElement.querySelector('.progress-bar');
+                const progressText = sectionElement.querySelector('.progress-text');
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${progress}% Complete`;
+
+                // Toggle completed class on item
                 const item = document.querySelector(`.item[data-id="${itemId}"]`);
                 item.classList.toggle('completed');
             }
@@ -1642,7 +2440,20 @@
                 }));
 
                 saveToStorage();
-                // Don't re-render the whole list, just update the checkbox state
+
+                // Update progress bar without full re-render
+                const sectionElement = document.querySelector(`.subitem[data-id="${subitemId}"]`).closest('.section');
+                const sectionId = sectionElement.dataset.id;
+                const section = sections.find(s => s.id === sectionId);
+                const progress = calculateSectionProgress(section);
+
+                // Update progress bar and text
+                const progressBar = sectionElement.querySelector('.progress-bar');
+                const progressText = sectionElement.querySelector('.progress-text');
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${progress}% Complete`;
+
+                // Toggle completed class on subitem
                 const subitem = document.querySelector(`.subitem[data-id="${subitemId}"]`);
                 subitem.classList.toggle('completed');
             }
@@ -1700,7 +2511,7 @@
                     document.addEventListener('touchmove', handleDragMove, { passive: false });
                     document.addEventListener('mouseup', handleDragEnd);
                     document.addEventListener('touchend', handleDragEnd);
-                }, 500);
+                }, 100);
 
                 document.addEventListener('mouseup', cancelDragStart);
                 document.addEventListener('touchend', cancelDragStart);
@@ -1715,31 +2526,55 @@
             }
 
             function handleDragMove(e) {
-                e.preventDefault();
-                if (!isDragging) return;
+    e.preventDefault();
+    if (!isDragging) return;
 
-                const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
 
-                // Remove existing drag-over states
-                document.querySelectorAll('.drag-over').forEach(el =>
-                    el.classList.remove('drag-over'));
+    // Remove existing drag-over states
+    document.querySelectorAll('.drag-over').forEach(el => {
+        el.classList.remove('drag-over');
+        el.removeAttribute('data-drop-position');
+    });
 
-                // Find the element we're dragging over
-                const elementBelow = document.elementFromPoint(
-                    e.type === 'touchmove' ? e.touches[0].clientX : e.clientX,
-                    clientY
-                );
+    const elementBelow = document.elementFromPoint(clientX, clientY);
+    if (!elementBelow) return;
 
-                if (!elementBelow) return;
+    const isSubitem = draggedItem?.classList.contains('subitem');
+    let dropTarget;
 
-                const dropTarget = draggedSection
-                    ? elementBelow.closest('.section')
-                    : elementBelow.closest('.item');
+    if (isSubitem) {
+        dropTarget = elementBelow.closest('.subitem');
+        
+        if (dropTarget && dropTarget !== draggedItem) {
+            const targetRect = dropTarget.getBoundingClientRect();
+            const mouseY = clientY;
+            const threshold = targetRect.top + (targetRect.height / 2); // Change to 50%
 
-                if (dropTarget && dropTarget !== (draggedSection || draggedItem)) {
-                    dropTarget.classList.add('drag-over');
-                }
+            const dropPosition = mouseY < threshold ? 'before' : 'after';
+            dropTarget.setAttribute('data-drop-position', dropPosition);
+
+            // Only allow dropping within same parent item
+            const draggedParentItem = draggedItem.closest('.item');
+            const dropParentItem = dropTarget.closest('.item');
+            
+            if (draggedParentItem !== dropParentItem) {
+                dropTarget = dropParentItem;
             }
+        } else {
+            dropTarget = elementBelow.closest('.item');
+        }
+    } else {
+        dropTarget = elementBelow.closest('.item') || elementBelow.closest('.section');
+    }
+
+    if (dropTarget && dropTarget !== (draggedSection || draggedItem)) {
+        dropTarget.classList.add('drag-over');
+    }
+}
+
+
 
             function handleDragEnd(e) {
                 if (!isDragging) return;
@@ -1787,64 +2622,95 @@
                 document.removeEventListener('touchend', handleDragEnd);
             }
 
+            // Update the handleDrop function
             function handleDrop(dropTarget) {
-                if (draggedSection && dropTarget.classList.contains('section')) {
-                    // Handle section drop
-                    const fromIndex = Array.from(draggedSection.parentNode.children).indexOf(draggedSection);
-                    const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+    if (!isDragging) return;
 
-                    const [movedSection] = sections.splice(fromIndex, 1);
-                    sections.splice(toIndex, 0, movedSection);
-                } else if (draggedItem) {
-                    const isSubitem = draggedItem.classList.contains('subitem');
-                    const fromSection = draggedItem.closest('.section');
-                    const toSection = dropTarget.closest('.section');
+    if (draggedItem?.classList.contains('subitem')) {
+        const fromItem = draggedItem.closest('.item');
+        const toItem = dropTarget?.closest('.item');
+        
+        // Store expanded state
+        const wasExpanded = fromItem.classList.contains('expanded');
+        const scrollPosition = window.scrollY;
 
-                    if (isSubitem) {
-                        // Handle subitem drop
-                        const fromItem = draggedItem.closest('.item');
-                        const toItem = dropTarget.closest('.item');
+        if (fromItem && toItem && fromItem.dataset.id === toItem.dataset.id) {
+            const fromSection = fromItem.closest('.section');
+            const fromSectionData = sections.find(s => s.id === fromSection.dataset.id);
+            const fromItemData = fromSectionData.items.find(i => i.id === fromItem.dataset.id);
+            const draggedSubitemId = draggedItem.dataset.id;
+            const fromIndex = fromItemData.subitems.findIndex(s => s.id === draggedSubitemId);
 
-                        if (toItem) {
-                            const fromSectionData = sections.find(s => s.id === fromSection.dataset.id);
-                            const fromItemData = fromSectionData.items.find(i => i.id === fromItem.dataset.id);
-                            const toSectionData = sections.find(s => s.id === toSection.dataset.id);
-                            const toItemData = toSectionData.items.find(i => i.id === toItem.dataset.id);
+            let toIndex;
+            if (dropTarget?.classList.contains('subitem')) {
+                const targetId = dropTarget.dataset.id;
+                toIndex = fromItemData.subitems.findIndex(s => s.id === targetId);
+                const dropPosition = dropTarget.getAttribute('data-drop-position');
 
-                            const subitemId = draggedItem.dataset.id;
-                            const [movedSubitem] = fromItemData.subitems.splice(
-                                fromItemData.subitems.findIndex(s => s.id === subitemId),
-                                1
-                            );
+                if (dropPosition === 'before') {
+                    // No adjustment needed for 'before'
+                } else {
+                    toIndex++; // Increment for 'after'
+                }
+            } else {
+                toIndex = fromItemData.subitems.length;
+            }
 
-                            if (!toItemData.subitems) {
-                                toItemData.subitems = [];
-                            }
-                            toItemData.subitems.push(movedSubitem);
-                        }
-                    } else {
-                        // Handle item drop
-                        const fromSectionId = fromSection.dataset.id;
-                        const toSectionId = toSection.dataset.id;
+            // Remove the item from its current position
+            const [movedSubitem] = fromItemData.subitems.splice(fromIndex, 1);
+            
+            // Insert at the new position
+            fromItemData.subitems.splice(toIndex, 0, movedSubitem);
 
-                        const fromIndex = Array.from(draggedItem.parentNode.children).indexOf(draggedItem);
-                        const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+            saveToStorage();
+            renderSections();
 
-                        const fromSectionData = sections.find(s => s.id === fromSectionId);
-                        const [movedItem] = fromSectionData.items.splice(fromIndex, 1);
-
-                        if (fromSectionId === toSectionId) {
-                            fromSectionData.items.splice(toIndex, 0, movedItem);
-                        } else {
-                            const toSectionData = sections.find(s => s.id === toSectionId);
-                            toSectionData.items.splice(toIndex, 0, movedItem);
+            // Restore expanded state and scroll position
+            setTimeout(() => {
+                if (wasExpanded) {
+                    const newFromItem = document.querySelector(`[data-id="${fromItem.dataset.id}"]`);
+                    if (newFromItem) {
+                        newFromItem.classList.add('expanded');
+                        const dropdownContent = newFromItem.querySelector('.dropdown-content');
+                        if (dropdownContent) {
+                            dropdownContent.style.display = 'block';
                         }
                     }
                 }
+                window.scrollTo(0, scrollPosition);
+            }, 0);
+        }
+    } else {
+        // Handle regular items and sections (unchanged)
+        if (draggedSection && dropTarget?.classList.contains('section')) {
+            const fromIndex = Array.from(draggedSection.parentNode.children).indexOf(draggedSection);
+            const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+            const [movedSection] = sections.splice(fromIndex, 1);
+            sections.splice(toIndex, 0, movedSection);
+        } else if (draggedItem) {
+            const fromSection = draggedItem.closest('.section');
+            const toSection = dropTarget?.closest('.section');
+            const fromSectionId = fromSection.dataset.id;
+            const toSectionId = toSection.dataset.id;
 
-                saveToStorage();
-                renderSections();
+            const fromIndex = Array.from(draggedItem.parentNode.children).indexOf(draggedItem);
+            const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+
+            const fromSectionData = sections.find(s => s.id === fromSectionId);
+            const [movedItem] = fromSectionData.items.splice(fromIndex, 1);
+
+            if (fromSectionId === toSectionId) {
+                fromSectionData.items.splice(toIndex, 0, movedItem);
+            } else {
+                const toSectionData = sections.find(s => s.id === toSectionId);
+                toSectionData.items.splice(toIndex, 0, movedItem);
             }
+        }
+        
+        saveToStorage();
+        renderSections();
+    }
+}
             // Import/Export Functions
             function exportData() {
                 const key = btoa(JSON.stringify(sections));
@@ -1994,7 +2860,210 @@
                 document.querySelector('#importModal .modal').classList.add('active');
                 setTimeout(() => document.getElementById('importKey').focus(), 100);
             }
+            function calculateSectionProgress(section) {
+                if (!section.items.length) return 0;
 
+                let totalItems = 0;
+                let completedItems = 0;
+
+                section.items.forEach(item => {
+                    // Check if item has subitems
+                    if (item.subitems && item.subitems.length > 0) {
+                        // Count only subitems for items with subitems
+                        totalItems += item.subitems.length;
+                        completedItems += item.subitems.filter(subitem => subitem.completed).length;
+                    } else {
+                        // Count main item if it has no subitems
+                        totalItems++;
+                        if (item.completed) {
+                            completedItems++;
+                        }
+                    }
+                });
+
+                // Ensure we don't divide by zero
+                if (totalItems === 0) return 0;
+
+                // Calculate percentage and round to whole number
+                const percentage = (completedItems / totalItems) * 100;
+                return Math.round(percentage);
+            }
+
+            // Add these new functions
+            let editingSectionId = null; // Add this with your other global variables
+
+            function editSection(sectionId) {
+                editingSectionId = sectionId;
+                const section = sections.find(s => s.id === sectionId);
+
+                // Update modal title and button
+                document.getElementById('sectionModalTitle').textContent = 'Edit Section';
+                const saveBtn = document.getElementById('saveSectionBtn');
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save';
+
+                // Fill in the section name
+                document.getElementById('sectionName').value = section.name;
+
+                // Show the modal
+                document.getElementById('sectionModal').classList.add('active');
+                document.querySelector('#sectionModal .modal').classList.add('active');
+                setTimeout(() => document.getElementById('sectionName').focus(), 100);
+            }
+
+            function saveSection() {
+                const name = document.getElementById('sectionName').value.trim();
+                if (!name) {
+                    showNotification('Please enter a section name', 'error');
+                    return;
+                }
+
+                if (editingSectionId) {
+                    // Update existing section
+                    sections = sections.map(section =>
+                        section.id === editingSectionId
+                            ? { ...section, name }
+                            : section
+                    );
+                    showNotification('Section updated successfully');
+                } else {
+                    // Add new section
+                    sections.push({
+                        id: generateId(),
+                        name,
+                        items: []
+                    });
+                    showNotification('Section added successfully');
+                }
+
+                saveToStorage();
+                renderSections();
+                hideModals();
+                document.getElementById('sectionName').value = '';
+            }
+
+            // Update the hideModals function to reset the editing state
+            function hideModals() {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                    modal.querySelector('.modal').classList.remove('active');
+                });
+
+                // Reset the section modal
+                editingSectionId = null;
+                document.getElementById('sectionModalTitle').textContent = 'Add New Section';
+                const saveBtn = document.getElementById('saveSectionBtn');
+                saveBtn.innerHTML = '<i class="fas fa-plus"></i> Add';
+
+                // Reset other editing states
+                editingSection = null;
+                editingItem = null;
+                editingSubitem = null;
+            }
+
+            // Update the showAddSectionModal function
+            function showAddSectionModal() {
+                editingSectionId = null;
+                document.getElementById('sectionModalTitle').textContent = 'Add New Section';
+                document.getElementById('sectionName').value = '';
+                const saveBtn = document.getElementById('saveSectionBtn');
+                saveBtn.innerHTML = '<i class="fas fa-plus"></i> Add';
+
+                document.getElementById('sectionModal').classList.add('active');
+                document.querySelector('#sectionModal .modal').classList.add('active');
+                setTimeout(() => document.getElementById('sectionName').focus(), 100);
+            }
+
+            // Add these new functions
+            function showMeditationModal() {
+                const select = document.getElementById('meditationSectionSelect');
+                select.innerHTML = sections.map(section =>
+                    `<option value="${section.id}">${section.name}</option>`
+                ).join('');
+
+                const meditationList = document.querySelector('.meditation-list');
+                meditationList.innerHTML = Object.entries(meditationPresets).map(([level, section]) => `
+        <div class="meditation-section">
+            <div class="meditation-section-header">
+                <div class="meditation-section-title">
+                    ${section.title}
+                    <span class="level-badge ${level}">${level.charAt(0).toUpperCase() + level.slice(1)}</span>
+                </div>
+                <div class="meditation-section-description">${section.description}</div>
+            </div>
+            <div class="meditation-section-content">
+                ${section.items.map(meditation => `
+                    <div class="meditation-item ${level}">
+                        <input type="checkbox" 
+                               class="custom-checkbox meditation-checkbox" 
+                               value="${meditation.id}">
+                        <div class="meditation-content">
+                            <div class="meditation-name">${meditation.name}</div>
+                            <div class="meditation-description">${meditation.description}</div>
+                            ${meditation.count ?
+                        `<span class="meditation-count">x${meditation.count}</span>` : ''}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+
+                document.getElementById('meditationModal').classList.add('active');
+                document.querySelector('#meditationModal .modal').classList.add('active');
+            }
+
+            function addSelectedMeditations() {
+                const sectionId = document.getElementById('meditationSectionSelect').value;
+                const selectedMeditations = Array.from(
+                    document.querySelectorAll('.meditation-checkbox:checked')
+                ).map(checkbox => checkbox.value);
+
+                if (!selectedMeditations.length) {
+                    showNotification('Please select at least one meditation', 'error');
+                    return;
+                }
+
+                const section = sections.find(s => s.id === sectionId);
+                if (!section) return;
+
+                selectedMeditations.forEach(meditationId => {
+                    // Find meditation in any difficulty level
+                    let preset;
+                    for (const level of Object.values(meditationPresets)) {
+                        preset = level.items.find(m => m.id === meditationId);
+                        if (preset) break;
+                    }
+
+                    if (!preset) return;
+
+                    const newItem = {
+                        id: generateId(),
+                        name: preset.name,
+                        count: preset.count,
+                        description: preset.description,
+                        url: preset.url,
+                        completed: false,
+                        subitems: preset.subitems ? preset.subitems.map(sub => ({
+                            id: generateId(),
+                            name: sub.name,
+                            count: sub.count,
+                            description: sub.description,
+                            completed: false
+                        })) : []
+                    };
+
+                    section.items.push(newItem);
+                });
+
+                saveToStorage();
+                renderSections();
+                hideModals();
+                showNotification('Meditations added successfully');
+            }
+
+            // Make sure to expose the new functions to the window object
+            window.editSection = editSection;
+            window.saveSection = saveSection;
             // Ensure it's added to the window assignments at the bottom of your script
             window.showImportModal = showImportModal;
             // Make functions globally available
@@ -2020,6 +3089,8 @@
             window.exportData = exportData;
             window.importData = importData;
             window.resetData = resetData;
+            window.showMeditationModal = showMeditationModal;
+            window.addSelectedMeditations = addSelectedMeditations;
 
             // Initialize
             renderSections();
