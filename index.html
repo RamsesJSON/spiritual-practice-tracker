@@ -8,1452 +8,1259 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Imports and Variables */
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
-
-        :root {
-            /* Colors */
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #161622;
-            --accent: #6b21a8;
-            --accent-light: #9333ea;
-            --text: #e2e2e2;
-            --completed: #22c55e;
-            --gold: #ffd700;
-            --danger: #dc2626;
-            --link: #3b82f6;
-
-            /* Spacing */
-            --spacing-xs: 0.25rem;
-            --spacing-sm: 0.5rem;
-            --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            --spacing-xl: 2rem;
-
-            /* Border Radius */
-            --radius-sm: 0.3rem;
-            --radius-md: 0.5rem;
-            --radius-lg: 1rem;
-
-            /* Transitions */
-            --transition-fast: 0.3s ease;
-        }
-
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            background: var(--bg-primary);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: var(--spacing-xl) var(--spacing-md);
-            background-image:
-                radial-gradient(circle at top right, rgba(107, 33, 168, 0.15) 0%, transparent 70%),
-                radial-gradient(circle at bottom left, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
-            background-attachment: fixed;
-            font-size: 1.1rem;
-        }
-
-        /* Container Layout */
-        .container {
-            display: flex;
-            flex-direction: column;
-            min-height: calc(100vh - 4rem);
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--spacing-md);
-        }
-
-        /* Header Styles */
-        header {
-            text-align: center;
-            margin-bottom: var(--spacing-xl);
-            padding: var(--spacing-xl) 0;
-        }
-
-        h1 {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            background: linear-gradient(45deg, var(--gold), var(--accent-light) 50%, var(--gold));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        /* Controls Bar */
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-md);
-            justify-content: center;
-            margin: var(--spacing-xl) 0;
-        }
-
-        .btn {
-            font-family: 'Cinzel', serif;
-            padding: var(--spacing-md) var(--spacing-lg);
-            border: none;
-            border-radius: var(--radius-md);
-            background: var(--accent);
-            color: var(--text);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            transition: all var(--transition-fast);
-            min-width: 160px;
-            justify-content: center;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(107, 33, 168, 0.3);
-        }
-
-        .btn-danger {
-            background: var(--danger);
-        }
-
-        .btn-uncheck {
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent);
-        }
-
-        /* Sections Grid */
-        .sections {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
-            gap: var(--spacing-xl);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        /* Credit */
-        .credit {
-            position: relative;
-            width: fit-content;
-            max-width: calc(100% - 2rem);
-            margin: var(--spacing-xl) auto;
-            padding: 0.8rem 1.2rem;
-            background: rgba(107, 33, 168, 0.2);
-            border-radius: 1.5rem;
-            font-family: 'Cinzel', serif;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            text-align: center;
-        }
-
-        .credit a {
-            color: var(--gold);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .credit a:hover {
-            color: var(--accent-light);
-        }
-
-        /* Responsive Base Layout */
-        @media (max-width: 768px) {
-            body {
-                padding: var(--spacing-sm);
-            }
-
-            .container {
-                padding: 0 var(--spacing-sm);
-            }
-
-            .btn {
-                width: 100%;
-                min-width: unset;
-                padding: var(--spacing-sm) var(--spacing-md);
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .credit {
-                margin: var(--spacing-lg) auto;
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Section Styles */
-        .section {
-            position: relative;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-lg);
-            padding: var(--spacing-xl);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(147, 51, 234, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--spacing-lg);
-            padding-bottom: var(--spacing-md);
-            border-bottom: 2px solid rgba(147, 51, 234, 0.2);
-        }
-
-        .section-title {
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            font-size: 1.6rem;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            background: rgba(107, 33, 168, 0.1);
-            border-radius: var(--radius-md);
-            height: 24px;
-            position: relative;
-            margin: var(--spacing-md) 0;
-            border: 1px solid rgba(147, 51, 234, 0.2);
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-light));
-            transition: width 0.3s ease;
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-
-        .progress-text {
-            position: absolute;
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            line-height: 24px;
-            color: var(--text);
-            font-weight: 600;
-            text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-
-        /* Drag Handles */
-        .section-drag-handle {
-            position: absolute;
-            left: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(147, 51, 234, 0.1);
-            transition: all var(--transition-fast);
-            cursor: grab;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Section Responsive */
-        @media (max-width: 768px) {
-            .section {
-                padding: var(--spacing-md);
-                margin: 0 var(--spacing-sm);
-            }
-
-            .section-title {
-                font-size: 1.3rem;
-            }
-
-            .section-drag-handle {
-                left: -10px;
-                width: 24px;
-                height: 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section-drag-handle {
-                display: none;
-            }
-
-            .progress-container {
-                height: 20px;
-            }
-
-            .progress-text {
-                line-height: 20px;
-                font-size: 0.8rem;
-            }
-        }
-
-        /* Items List */
-        .items {
-            list-style: none;
-        }
-
-        /* Item Base Styles */
-        .item,
-        .subitem {
-            background: rgba(107, 33, 168, 0.1);
-            border-radius: var(--radius-md);
-            margin: var(--spacing-md) 0;
-            border: 1px solid rgba(147, 51, 234, 0.1);
-        }
-
-        /* Item Header Base Layout */
-        .item-header {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-sm);
-            padding: var(--spacing-md);
-            background: rgba(107, 33, 168, 0.05);
-            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
-            min-height: 60px;
-        }
-
-        /* Left Side Group (Drag + Checkbox) */
-        .item-left {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            flex-shrink: 0;
-        }
-
-        /* Drag Handle */
-        .drag-handle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(147, 51, 234, 0.1);
-            cursor: grab;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(226, 226, 226, 0.7);
-            transition: all var(--transition-fast);
-        }
-
-        .drag-handle:hover {
-            background: rgba(147, 51, 234, 0.2);
-            transform: scale(1.1);
-        }
-
-        .drag-handle i {
-            font-size: 1rem;
-        }
-
-        /* Checkbox */
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .custom-checkbox {
-            width: 1.2rem;
-            height: 1.2rem;
-            border-radius: var(--radius-sm);
-            border: 2px solid var(--accent);
-            appearance: none;
-            cursor: pointer;
-            position: relative;
-            background: rgba(107, 33, 168, 0.1);
-            transition: all var(--transition-fast);
-        }
-
-        .custom-checkbox:checked {
-            background: var(--completed);
-            border-color: var(--completed);
-        }
-
-        .custom-checkbox:checked::after {
-            content: "✓";
-            position: absolute;
-            color: white;
-            font-size: 0.8rem;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* Content Area */
-        .item-content {
-            display: flex;
-            flex: 1;
-            min-width: 0;
-            gap: var(--spacing-md);
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        /* Name Container */
-        .item-name-container {
-            display: flex;
-            flex: 1;
-            min-width: 0;
-            gap: var(--spacing-sm);
-            align-items: center;
-        }
-
-        .item-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text);
-            word-break: break-word;
-            overflow-wrap: break-word;
-            min-width: 0;
-            flex: 1;
-            padding-right: var(--spacing-sm);
-        }
-
-        /* Count Badge */
-        .item-count {
-            background: rgba(147, 51, 234, 0.2);
-            padding: 0.2rem 0.8rem;
-            border-radius: 1rem;
-            color: var(--gold);
-            font-weight: 600;
-            white-space: nowrap;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        /* Controls */
-        .item-controls {
-            display: flex;
-            gap: var(--spacing-sm);
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all var(--transition-fast);
-        }
-
-        .icon-btn:hover {
-            background: rgba(147, 51, 234, 0.2);
-            color: var(--gold);
-        }
-
-        /* Dropdown Content */
-        .dropdown-content {
-            display: none;
-            padding: var(--spacing-lg);
-            background: rgba(22, 22, 34, 0.5);
-            width: 100%;
-        }
-
-        .item.expanded .dropdown-content,
-        .subitem.expanded .dropdown-content {
-            display: block;
-        }
-
-        /* Description */
-        .description {
-            color: #a8a8a8;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            padding: var(--spacing-md);
-            background: rgba(107, 33, 168, 0.05);
-            border-radius: var(--radius-sm);
-            border-left: 3px solid var(--accent);
-            margin: var(--spacing-sm) 0;
-            width: 100%;
-            word-break: break-word;
-        }
-
-        /* Links */
-        .item-link {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-            color: var(--link);
-            text-decoration: none;
-            padding: var(--spacing-sm);
-            border-radius: var(--radius-sm);
-            background: rgba(59, 130, 246, 0.1);
-            margin-top: var(--spacing-sm);
-            word-break: break-all;
-            width: 100%;
-        }
-
-        .item-link:hover {
-            background: rgba(255, 215, 0, 0.1);
-            color: var(--gold);
-        }
-
-        /* Subitems */
-        .subitems {
-            list-style: none;
-            margin: var(--spacing-lg) 0;
-            padding-left: var(--spacing-xl);
-            border-left: 2px solid rgba(147, 51, 234, 0.3);
-            width: 100%;
-        }
-
-        .subitem {
-            width: calc(100% - var(--spacing-lg));
-        }
-
-        /* Expand Indicator */
-        .expand-indicator {
-            width: 26px;
-            height: 26px;
-            background: rgba(147, 51, 234, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-fast);
-            cursor: pointer;
-        }
-
-        .expand-indicator i {
-            transition: transform var(--transition-fast);
-            font-size: 0.8rem;
-            color: var(--text);
-        }
-
-        .item.expanded .expand-indicator i,
-        .subitem.expanded .expand-indicator i {
-            transform: rotate(180deg);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .item-header {
-                gap: var(--spacing-xs);
-                padding: var(--spacing-sm);
-            }
-
-            .item-content {
-                width: 100%;
-                flex-wrap: wrap;
-                gap: var(--spacing-sm);
-            }
-
-            .item-name-container {
-                width: 100%;
-                margin-bottom: var(--spacing-xs);
-            }
-
-            .item-name {
-                font-size: 1rem;
-            }
-
-            .item-count {
-                font-size: 0.85rem;
-                padding: 0.15rem 0.5rem;
-            }
-
-            .drag-handle {
-                width: 24px;
-                height: 24px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .item-header {
-                padding: var(--spacing-xs) var(--spacing-sm);
-            }
-
-            .item-content {
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-            }
-
-            .item-name-container {
-                margin-bottom: var(--spacing-xs);
-            }
-
-            .item-name {
-                font-size: 0.95rem;
-            }
-
-            .item-controls {
-                width: 100%;
-                justify-content: flex-start;
-                margin-top: var(--spacing-xs);
-            }
-
-            .subitems {
-                padding-left: var(--spacing-md);
-            }
-
-            .drag-handle {
-                display: none;
-            }
-        }
-
-        /* Touch Device Optimizations */
-        @media (hover: none) {
-            .drag-handle {
-                display: none;
-            }
-
-            .icon-btn {
-                min-height: 44px;
-                min-width: 44px;
-            }
-
-            .item-header {
-                min-height: 54px;
-            }
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            z-index: 999;
-            display: none;
-            overflow-y: auto;
-            padding: var(--spacing-xl) var(--spacing-md);
-        }
-
-        .modal {
-            background: var(--bg-secondary);
-            padding: var(--spacing-xl);
-            border-radius: var(--radius-lg);
-            width: 90%;
-            max-width: 600px;
-            margin: 0 auto;
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .modal::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-light));
-        }
-
-        .modal h2 {
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            margin-bottom: var(--spacing-lg);
-            text-align: center;
-            font-size: 1.8rem;
-        }
-
-        /* Form Styles */
-        .input-group {
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text);
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .input-group input,
-        .input-group textarea {
-            width: 100%;
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--accent);
-            background: var(--bg-primary);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all var(--transition-fast);
-        }
-
-        .input-group input:focus,
-        .input-group textarea:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(147, 51, 234, 0.2);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-overlay.active,
-        .modal.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .dropdown-content {
-            animation: slideDown var(--transition-fast);
-        }
-
-        /* Drag and Drop States */
-        .drag-ghost {
-            opacity: 0.5;
-            background: var(--accent);
-            border: 2px dashed var(--gold);
-        }
-
-        .drag-over {
-            border: 2px dashed var(--gold);
-        }
-
-        .dragging {
-            opacity: 0.5;
-            cursor: grabbing;
-        }
-
-        /* Loading State */
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
-            position: relative;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(107, 33, 168, 0.1);
-            backdrop-filter: blur(2px);
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        :focus-visible {
-            outline: 2px solid var(--accent-light);
-            outline-offset: 2px;
-        }
-
-        /* High Contrast Mode */
-        @media (forced-colors: active) {
-
-            .section,
-            .item,
-            .subitem {
-                border: 1px solid CanvasText;
-            }
-
-            .progress-bar {
-                background: Highlight;
-            }
-
-            .custom-checkbox:checked {
-                background: Highlight;
-            }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-light);
-        }
-
-        /* Selection Style */
-        ::selection {
-            background: var(--accent);
-            color: var(--text);
-        }
-
-        /* Modal Responsive */
-        @media (max-width: 768px) {
-            .modal {
-                width: 95%;
-                padding: var(--spacing-md);
-            }
-
-            .modal h2 {
-                font-size: 1.5rem;
-            }
-
-            .input-group label {
-                font-size: 1rem;
-            }
-
-            .input-group input,
-            .input-group textarea {
-                padding: var(--spacing-sm);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .modal-overlay {
-                padding: var(--spacing-sm);
-            }
-
-            .modal {
-                width: 100%;
-                margin: 0;
-            }
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                background: none;
-                color: #000;
-            }
-
-            .section {
-                page-break-inside: avoid;
-                break-inside: avoid;
-                border: 1px solid #ccc;
-            }
-
-            .btn,
-            .controls,
-            .drag-handle,
-            .credit {
-                display: none;
-            }
-        }
-
-        /* Performance Optimizations */
-        .section,
-        .item,
-        .subitem,
-        .modal {
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            perspective: 1000px;
-            will-change: transform;
-        }
-
-        .meditation-list {
-            max-height: none;
-            background: transparent;
-            padding: 0;
-            border-radius: 0;
-        }
-
-        .meditation-item {
-            margin-bottom: var(--spacing-sm);
-            transition: all var(--transition-fast);
-        }
-
-        .meditation-item:hover {
-            background: rgba(107, 33, 168, 0.2);
-        }
-
-        .meditation-checkbox {
-            margin-top: 0.3rem;
-        }
-
-        .meditation-content {
-            flex: 1;
-        }
-
-        .level-badge {
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            border-radius: 1rem;
-            font-size: 0.8rem;
-            margin-left: var(--spacing-sm);
-            vertical-align: middle;
-        }
-
-        .level-badge.beginner {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-        }
-
-        .level-badge.intermediate {
-            background: rgba(234, 179, 8, 0.2);
-            color: #eab308;
-        }
-
-        .level-badge.advanced {
-            background: rgba(220, 38, 38, 0.2);
-            color: #dc2626;
-        }
-
-        .meditation-item.beginner {
-            border-left: 3px solid #22c55e;
-        }
-
-        .meditation-item.intermediate {
-            border-left: 3px solid #eab308;
-        }
-
-        .meditation-item.advanced {
-            border-left: 3px solid #dc2626;
-        }
-
-        .meditation-name {
-            font-weight: 600;
-            color: var(--gold);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .meditation-description {
-            font-size: 0.95rem;
-            color: var(--text);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .meditation-count {
-            display: inline-block;
-            padding: 0.2rem 0.8rem;
-            background: rgba(147, 51, 234, 0.2);
-            border-radius: 1rem;
-            color: var(--gold);
-            font-size: 0.9rem;
-            margin-top: var(--spacing-xs);
-        }
-
-        .section-select {
-            width: 100%;
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--accent);
-            background: var(--bg-primary);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-        }
-
-        .meditation-section {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .meditation-section-header {
-            background: rgba(107, 33, 168, 0.2);
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-bottom: none;
-        }
-
-        .meditation-section-title {
-            color: var(--gold);
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .meditation-section-description {
-            color: var(--text);
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .meditation-section-content {
-            background: rgba(107, 33, 168, 0.1);
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            padding: var(--spacing-md);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-top: none;
-        }
-
-        /* Meditation List Layout */
-        .meditation-list {
-            max-height: 400px;
-            overflow-y: auto;
-            margin: var(--spacing-lg) 0;
-        }
-
-        /* Meditation Item */
-        .meditation-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-md);
-            padding: var(--spacing-md);
-            background: var(--bg-secondary);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--spacing-sm);
-            border: 1px solid rgba(147, 51, 234, 0.1);
-            transition: all var(--transition-fast);
-        }
-
-        .meditation-item:hover {
-            background: rgba(107, 33, 168, 0.2);
-        }
-
-        /* Meditation Checkbox */
-        .meditation-checkbox {
-            width: 1.2rem;
-            height: 1.2rem;
-            margin-top: 0.3rem;
-            flex-shrink: 0;
-        }
-
-        /* Meditation Content */
-        .meditation-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .meditation-name {
-            font-weight: 600;
-            color: var(--gold);
-            font-size: 1.1rem;
-            margin-bottom: var(--spacing-xs);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .meditation-description {
-            font-size: 0.95rem;
-            color: var(--text);
-            margin-bottom: var(--spacing-sm);
-            line-height: 1.5;
-        }
-
-        .meditation-count {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.2rem 0.8rem;
-            background: rgba(147, 51, 234, 0.2);
-            border-radius: 1rem;
-            color: var(--gold);
-            font-size: 0.9rem;
-        }
-
-        /* Section Headers */
-        .meditation-section {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .meditation-section-header {
-            background: rgba(107, 33, 168, 0.2);
-            padding: var(--spacing-lg);
-            border-radius: var(--radius-md) var(--radius-md) 0 0;
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-bottom: none;
-        }
-
-        .meditation-section-title {
-            color: var(--gold);
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            margin-bottom: var(--spacing-xs);
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .meditation-section-description {
-            color: var(--text);
-            font-size: 1rem;
-            opacity: 0.9;
-            line-height: 1.5;
-        }
-
-        .meditation-section-content {
-            background: rgba(107, 33, 168, 0.1);
-            border-radius: 0 0 var(--radius-md) var(--radius-md);
-            padding: var(--spacing-lg);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-top: none;
-        }
-
-        /* Level Badges */
-        .level-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.2rem 0.8rem;
-            border-radius: 1rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .level-badge.beginner {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-        }
-
-        .level-badge.intermediate {
-            background: rgba(234, 179, 8, 0.2);
-            color: #eab308;
-        }
-
-        .level-badge.advanced {
-            background: rgba(220, 38, 38, 0.2);
-            color: #dc2626;
-        }
-
-        /* Section Select */
-        .section-select {
-            width: 100%;
-            padding: var(--spacing-md);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--accent);
-            background: var(--bg-primary);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        /* Colored Borders */
-        .meditation-item.beginner {
-            border-left: 3px solid #22c55e;
-        }
-
-        .meditation-item.intermediate {
-            border-left: 3px solid #eab308;
-        }
-
-        .meditation-item.advanced {
-            border-left: 3px solid #dc2626;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .meditation-item {
-                padding: var(--spacing-sm);
-                gap: var(--spacing-sm);
-            }
-
-            .meditation-section-header {
-                padding: var(--spacing-md);
-            }
-
-            .meditation-section-content {
-                padding: var(--spacing-md);
-            }
-
-            .meditation-name {
-                font-size: 1rem;
-            }
-
-            .meditation-description {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .meditation-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: var(--spacing-xs);
-            }
-
-            .level-badge {
-                align-self: flex-start;
-            }
-        }
-
-        .subitem.drag-over {
-            border: 2px dashed var(--gold);
-            position: relative;
-        }
-
-        /* Drop position indicators */
-        .subitem.drag-over[data-drop-position="before"]::before,
-        .subitem.drag-over[data-drop-position="after"]::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gold);
-            z-index: 1;
-        }
-
-        .subitem.drag-over[data-drop-position="before"]::before {
-            top: -2px;
-        }
-
-        .subitem.drag-over[data-drop-position="after"]::before {
-            bottom: -2px;
-        }
-
-        /* Enhanced visual feedback */
-        .subitem.drag-over[data-drop-position]::after {
-            content: '';
-            position: absolute;
-            left: -1px;
-            width: 4px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .subitem.drag-over[data-drop-position="before"]::after {
-            top: -5px;
-        }
-
-        .subitem.drag-over[data-drop-position="after"]::after {
-            bottom: -5px;
-        }
-
-        /* Ensure proper z-index stacking */
-        .item.expanded .dropdown-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .dragging {
-            z-index: 2;
-        }
-
-        /* Animated Background */
-        body {
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap');
+
+:root {
+    /* Colors */
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #161622;
+    --accent: #6b21a8;
+    --accent-light: #9333ea;
+    --text: #e2e2e2;
+    --completed: #22c55e;
+    --gold: #ffd700;
+    --danger: #dc2626;
+    --link: #3b82f6;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Border Radius */
+    --radius-sm: 0.3rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+
+    /* Transitions */
+    --transition-fast: 0.3s ease;
+}
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: 'Cormorant Garamond', serif;
+    background: var(--bg-primary);
     color: var(--text);
     line-height: 1.6;
     min-height: 100vh;
     padding: var(--spacing-xl) var(--spacing-md);
-    background: var(--bg-primary);
     font-size: 1.1rem;
-    /* Remove any animation or transition properties */
 }
 
-        /* Background effect container */
-        body::before {
+/* Background Gradient */
+body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: linear-gradient(
-        135deg,
+    background: linear-gradient(135deg,
         var(--bg-primary) 0%,
         rgba(107, 33, 168, 0.15) 50%,
-        var(--bg-primary) 100%
-    );
+        var(--bg-primary) 100%);
     z-index: -1;
     pointer-events: none;
 }
 
-        /* Animated orbs */
-        body::after {
+/* Container Layout */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 4rem);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+/* Selection Style (continued) */
+::selection {
+    background: var(--accent);
+    color: var(--text);
+}
+
+/* Meditation Components */
+.meditation-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin: var(--spacing-lg) 0;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+.meditation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    border: 1px solid rgba(147, 51, 234, 0.1);
+    transition: all var(--transition-fast);
+}
+
+.meditation-item:hover {
+    background: rgba(107, 33, 168, 0.2);
+}
+
+.meditation-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.meditation-name {
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.meditation-description {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.5;
+}
+
+.meditation-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 1rem;
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+/* Meditation Section Styles */
+.meditation-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.meditation-section-header {
+    background: rgba(107, 33, 168, 0.2);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-bottom: none;
+}
+
+.meditation-section-title {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.meditation-section-description {
+    color: var(--text);
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.meditation-section-content {
+    background: rgba(107, 33, 168, 0.1);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: var(--spacing-lg);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-top: none;
+}
+
+/* Level Badges */
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.level-badge.beginner {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.level-badge.intermediate {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+}
+
+.level-badge.advanced {
+    background: rgba(220, 38, 38, 0.2);
+    color: #dc2626;
+}
+
+/* Section Select */
+.section-select {
+    width: 100%;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--accent);
+    background: var(--bg-primary);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Credit Section */
+.credit {
+    position: relative;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    margin: var(--spacing-xl) auto;
+    padding: 0.8rem 1.2rem;
+    background: rgba(107, 33, 168, 0.2);
+    border-radius: 1.5rem;
+    font-family: 'Cinzel', serif;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    text-align: center;
+}
+
+.credit a {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.credit a:hover {
+    color: var(--accent-light);
+}
+
+/* Expand/Collapse Indicators */
+.expand-indicator {
+    width: 26px;
+    height: 26px;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.expand-indicator i {
+    transition: transform var(--transition-fast);
+    font-size: 0.8rem;
+    color: var(--text);
+}
+
+.item.expanded .expand-indicator i,
+.subitem.expanded .expand-indicator i {
+    transform: rotate(180deg);
+}
+
+/* Performance Optimizations */
+.section,
+.item,
+.subitem,
+.modal {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* Additional Responsive Adjustments */
+@media (max-width: 768px) {
+    .meditation-item {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+
+    .meditation-section-header {
+        padding: var(--spacing-md);
+    }
+
+    .meditation-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .meditation-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+
+    .level-badge {
+        align-self: flex-start;
+    }
+
+    .credit {
+        margin: var(--spacing-lg) auto;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Header Styles */
+header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(45deg, var(--gold), var(--accent-light) 50%, var(--gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Controls Bar */
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin: var(--spacing-xl) 0;
+}
+
+/* Button Styles */
+.btn {
+    font-family: 'Cinzel', serif;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--accent);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    transition: all var(--transition-fast);
+    min-width: 160px;
+    justify-content: center;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(107, 33, 168, 0.3);
+}
+
+.btn-danger {
+    background: var(--danger);
+}
+
+.btn-uncheck {
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+}
+
+/* Sections Grid */
+.sections {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Section Styles */
+.section {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(147, 51, 234, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid rgba(147, 51, 234, 0.2);
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 1.6rem;
+}
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    background: rgba(107, 33, 168, 0.1);
+    border-radius: var(--radius-md);
+    height: 24px;
+    position: relative;
+    margin: var(--spacing-md) 0;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+    transition: width 0.3s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 24px;
+    color: var(--text);
+    font-weight: 600;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* Items List */
+.items {
+    list-style: none;
+}
+
+/* Item Base Styles */
+.item,
+.subitem {
+    background: rgba(107, 33, 168, 0.1);
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md) 0;
+    border: 1px solid rgba(147, 51, 234, 0.1);
+}
+
+/* Item Header Layout */
+.item-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(107, 33, 168, 0.05);
+    border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+    min-height: 60px;
+}
+.item-header {
+    position: relative;
+    z-index: 1;
+}
+/* Item Content */
+.item-content {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: var(--spacing-md);
+    align-items: center;
+    flex-wrap: wrap;
+}
+/* Prevent text selection specifically for draggable elements */
+.item-header,
+.item-content,
+.subitem-header,
+.subitem-content {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Allow text selection in descriptions and content */
+.description,
+.item-link {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+}
+.item-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
+    word-break: break-word;
+    overflow-wrap: break-word;
+    min-width: 0;
+    flex: 1;
+    padding-right: var(--spacing-sm);
+}
+
+.item-count {
+    background: rgba(147, 51, 234, 0.2);
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+    color: var(--gold);
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Checkboxes */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.custom-checkbox {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--accent);
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+    background: rgba(107, 33, 168, 0.1);
+    transition: all var(--transition-fast);
+}
+
+.custom-checkbox:checked {
+    background: var(--completed);
+    border-color: var(--completed);
+}
+
+.custom-checkbox:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 0.8rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Item Controls */
+.item-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+}
+
+.icon-btn:hover {
+    background: rgba(147, 51, 234, 0.2);
+    color: var(--gold);
+}
+
+/* Improved drag handle styles */
+.drag-handle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(147, 51, 234, 0.2);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(226, 226, 226, 0.7);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+    background: rgba(147, 51, 234, 0.4);
+}
+
+.drag-handle:hover {
+    background: rgba(147, 51, 234, 0.3);
+    transform: scale(1.1);
+}
+
+.drag-handle i {
+    font-size: 1rem;
+}
+
+/* Subitems */
+.subitems {
+    position: relative;
+    padding-left: calc(var(--spacing-lg) + 10px);
+    margin: var(--spacing-sm) 0;
+    border-left: 2px solid rgba(147, 51, 234, 0.3);
+    min-height: 40px;
+}
+
+/* Dropdown Content */
+.dropdown-content {
     display: none;
+    padding: var(--spacing-lg);
+    background: rgba(22, 22, 34, 0.5);
+    width: 100%;
 }
 
-        /* Floating animation for background orbs */
-        @keyframes orbFloat {
-    0% {
-        transform: translate(0, 0);
+.item.expanded .dropdown-content,
+.subitem.expanded .dropdown-content {
+    display: block;
+}
+
+/* Description */
+.description {
+    color: #a8a8a8;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    padding: var(--spacing-md);
+    background: rgba(107, 33, 168, 0.05);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent);
+    margin: var(--spacing-sm) 0;
+    width: 100%;
+    word-break: break-word;
+}
+
+/* Links */
+.item-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--link);
+    text-decoration: none;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    background: rgba(59, 130, 246, 0.1);
+    margin-top: var(--spacing-sm);
+    word-break: break-all;
+    width: 100%;
+}
+
+.item-link:hover {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--gold);
+}
+
+/* Drag and Drop States */
+.drag-over {
+    position: relative;
+    outline: 2px dashed var(--gold);
+    outline-offset: 2px;
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.drag-over::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gold);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.drag-over[data-drop-position="before"]::before {
+    top: -4px;
+}
+
+.drag-over[data-drop-position="after"]::before {
+    bottom: -4px;
+}
+
+.drag-over::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 8px 6px 0;
+    border-color: transparent var(--gold) transparent transparent;
+    z-index: 10;
+}
+
+.drag-over[data-drop-position="before"]::after {
+    top: -7px;
+}
+
+.drag-over[data-drop-position="after"]::after {
+    bottom: -7px;
+}
+
+.dragging {
+    opacity: 0.7;
+    transform: scale(1.02);
+    z-index: 1000;
+    pointer-events: none;
+    cursor: grabbing;
+}
+
+.dragging * {
+    pointer-events: none;
+}
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    display: none;
+    overflow-y: auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.modal {
+    background: var(--bg-secondary);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+.modal h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+/* Form Styles */
+.input-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--accent);
+    background: var(--bg-primary);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(147, 51, 234, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
-    25% {
-        transform: translate(-2%, 2%);
-    }
-    50% {
-        transform: translate(2%, -2%);
-    }
-    75% {
-        transform: translate(-2%, -2%);
-    }
-    100% {
-        transform: translate(2%, 2%);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-        /* Add subtle floating animation to sections */
-        .section {
-            animation: sectionFloat 6s ease-in-out infinite alternate;
-            animation-delay: calc(var(--section-index, 0) * 0.5s);
-        }
+.modal-overlay.active,
+.modal.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
 
-        @keyframes sectionFloat {
-            0% {
-                transform: translateY(0);
-            }
+/* Responsive Styles */
+@media (max-width: 768px) {
+    body {
+        padding: var(--spacing-sm);
+    }
 
-            100% {
-                transform: translateY(-5px);
-            }
-        }
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
 
-        /* Add shimmer effect to gold elements */
-        h1,
-        .meditation-name,
-        .section-title {
-            position: relative;
-            overflow: hidden;
-        }
+    .section {
+        padding: var(--spacing-md);
+        margin: 0 var(--spacing-sm);
+    }
 
-        h1::after,
-        .meditation-name::after,
-        .section-title::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 215, 0, 0.2),
-                    transparent);
-            animation: shimmer 6s infinite;
-        }
+    .btn {
+        width: 100%;
+        min-width: unset;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
+    }
 
-        @keyframes shimmer {
-            0% {
-                left: -100%;
-            }
+    .item-header {
+        padding: var(--spacing-sm);
+        grid-template-columns: auto 1fr auto;
+        gap: var(--spacing-sm);
+    }
 
-            20%,
-            100% {
-                left: 200%;
-            }
-        }
+    .item-content {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--spacing-sm);
+    }
 
-        /* Subtle pulse animation for progress bars */
-        .progress-bar {
-            position: relative;
-            overflow: hidden;
-        }
+    .item-name {
+        font-size: 0.95rem;
+    }
 
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg,
-                    transparent,
-                    rgba(255, 255, 255, 0.1),
-                    transparent);
-            animation: progressPulse 3s ease-in-out infinite;
-        }
+    .item-count {
+        font-size: 0.85rem;
+        padding: 0.2rem 0.6rem;
+    }
 
-        @keyframes progressPulse {
+    .modal {
+        width: 95%;
+        padding: var(--spacing-md);
+    }
+}
+.item > .item-header .drag-handle,
+.subitem > .item-header .drag-handle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(147, 51, 234, 0.2);
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(226, 226, 226, 0.7);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    pointer-events: all;
+    position: relative;
+    z-index: 2;
+}
+.item.dragging,
+.subitem.dragging {
+    pointer-events: none;
+}
 
-            0%,
-            100% {
-                opacity: 0.5;
-            }
+.item.dragging *,
+.subitem.dragging * {
+    pointer-events: none;
+}
 
-            50% {
-                opacity: 1;
-            }
-        }
+/* Ensure proper highlighting of drag targets */
+.item.drag-over,
+.subitem.drag-over {
+    position: relative;
+    outline: 2px dashed var(--gold);
+    outline-offset: 2px;
+    background: rgba(255, 215, 0, 0.05);
+    pointer-events: all;
+}
+.item > .item-header .drag-handle:active,
+.subitem > .item-header .drag-handle:active {
+    cursor: grabbing;
+    background: rgba(147, 51, 234, 0.4);
+}
+@media (max-width: 480px) {
+    .section-drag-handle {
+        display: none;
+    }
 
-        /* Optimize performance */
-        @media (prefers-reduced-motion: reduce) {
+    .item-header {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
 
-            body::after,
-            .section,
-            h1::after,
-            .meditation-name::after,
-            .section-title::after,
-            .progress-bar::after {
-                animation: none;
-            }
-        }
+    .item-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-        /* Disable text selection during drag */
-        .item,
-        .subitem,
-        .item-name,
-        .item-content,
-        .drag-handle {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
+    .item-controls {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: var(--spacing-xs);
+    }
 
-        /* Ensure proper drag hover states */
-        .subitem.drag-over {
-            border: 2px dashed var(--gold);
-            position: relative;
-        }
+    .modal-overlay {
+        padding: var(--spacing-sm);
+    }
 
-        .subitem.drag-over::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gold);
-            z-index: 1;
-        }
+    .modal {
+        width: 100%;
+        margin: 0;
+    }
+}
 
-        .subitem.drag-over[data-drop-position="before"]::before {
-            top: -1px;
-        }
+/* Touch Device Optimizations */
+@media (hover: none) {
+    .drag-handle {
+        width: 44px;
+        height: 44px;
+        background: rgba(147, 51, 234, 0.2);
+    }
 
-        .subitem.drag-over[data-drop-position="after"]::before {
-            bottom: -1px;
-        }
+    .drag-handle i {
+        font-size: 1.2rem;
+    }
 
-        .subitems {
-            min-height: 40px;
-            padding-bottom: var(--spacing-sm);
-        }
+    .icon-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
 
-        .subitem .drag-handle {
-            opacity: 0.7;
-        }
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
 
-        .subitem:hover .drag-handle {
-            opacity: 1;
-        }
+/* Print Styles */
+@media print {
+    body {
+        background: none;
+        color: #000;
+    }
+
+    .section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 1px solid #ccc;
+    }
+
+    .btn,
+    .controls,
+    .drag-handle,
+    .credit {
+        display: none;
+    }
+}
+
+/* Utility Classes */
+.user-select-none {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent-light);
+    outline-offset: 2px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-light);
+}
+
+/* Selection Style */
+/* Selection Style (continued) */
+::selection {
+    background: var(--accent);
+    color: var(--text);
+}
+
+/* Meditation Components */
+.meditation-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin: var(--spacing-lg) 0;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+.meditation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    border: 1px solid rgba(147, 51, 234, 0.1);
+    transition: all var(--transition-fast);
+}
+
+.meditation-item:hover {
+    background: rgba(107, 33, 168, 0.2);
+}
+
+.meditation-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.meditation-name {
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.meditation-description {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.5;
+}
+
+.meditation-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 1rem;
+    color: var(--gold);
+    font-size: 0.9rem;
+}
+
+/* Meditation Section Styles */
+.meditation-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.meditation-section-header {
+    background: rgba(107, 33, 168, 0.2);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-bottom: none;
+}
+
+.meditation-section-title {
+    color: var(--gold);
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.meditation-section-description {
+    color: var(--text);
+    font-size: 1rem;
+    opacity: 0.9;
+    line-height: 1.5;
+}
+
+.meditation-section-content {
+    background: rgba(107, 33, 168, 0.1);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    padding: var(--spacing-lg);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-top: none;
+}
+
+/* Level Badges */
+.level-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.level-badge.beginner {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.level-badge.intermediate {
+    background: rgba(234, 179, 8, 0.2);
+    color: #eab308;
+}
+
+.level-badge.advanced {
+    background: rgba(220, 38, 38, 0.2);
+    color: #dc2626;
+}
+
+/* Section Select */
+.section-select {
+    width: 100%;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--accent);
+    background: var(--bg-primary);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Credit Section */
+.credit {
+    position: relative;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    margin: var(--spacing-xl) auto;
+    padding: 0.8rem 1.2rem;
+    background: rgba(107, 33, 168, 0.2);
+    border-radius: 1.5rem;
+    font-family: 'Cinzel', serif;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    text-align: center;
+}
+
+.credit a {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.credit a:hover {
+    color: var(--accent-light);
+}
+
+/* Expand/Collapse Indicators */
+.expand-indicator {
+    width: 26px;
+    height: 26px;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.expand-indicator i {
+    transition: transform var(--transition-fast);
+    font-size: 0.8rem;
+    color: var(--text);
+}
+
+.item.expanded .expand-indicator i,
+.subitem.expanded .expand-indicator i {
+    transform: rotate(180deg);
+}
+
+/* Performance Optimizations */
+.section,
+.item,
+.subitem,
+.modal {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* Additional Responsive Adjustments */
+@media (max-width: 768px) {
+    .meditation-item {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+
+    .meditation-section-header {
+        padding: var(--spacing-md);
+    }
+
+    .meditation-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .meditation-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+
+    .level-badge {
+        align-self: flex-start;
+    }
+
+    .credit {
+        margin: var(--spacing-lg) auto;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
     </style>
 </head>
 
@@ -1658,6 +1465,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', handleItemClick);
+    });
             // Global Variables
             let sections = JSON.parse(localStorage.getItem('spiritualTracker') || '[]');
             let editingSection = null;
@@ -1667,6 +1477,8 @@
             let draggedSection = null;
             let dragTimeout = null;
             let isDragging = false;
+            let dragTarget = null;
+let dropPosition = null;
 
             // Updated meditation presets structure with difficulty levels
             const meditationPresets = {
@@ -1990,7 +1802,30 @@
                     </li>
                 `).join('');
             }
-
+            function updateAfterDrop() {
+    // Save changes
+    saveToStorage();
+    
+    // Store expanded states
+    const expandedItems = new Set();
+    document.querySelectorAll('.item.expanded').forEach(item => {
+        expandedItems.add(item.dataset.id);
+    });
+    
+    // Render and restore expanded states
+    renderSections();
+    
+    expandedItems.forEach(itemId => {
+        const item = document.querySelector(`.item[data-id="${itemId}"]`);
+        if (item) {
+            item.classList.add('expanded');
+            const dropdownContent = item.querySelector('.dropdown-content');
+            if (dropdownContent) {
+                dropdownContent.style.display = 'block';
+            }
+        }
+    });
+}
             function renderItemContent(item) {
                 if (!item.description && !item.subitems?.length && !item.url) return '';
 
@@ -2058,7 +1893,7 @@
         </li>
     `).join('');
             }
-
+            let expandedStates = new Map();
             function renderSubitemContent(subitem) {
                 if (!subitem.description && !subitem.url) return '';
 
@@ -2335,29 +2170,30 @@
             }
 
             function toggleItemContent(itemId) {
-                event.stopPropagation();
-                const item = document.querySelector(`.item[data-id="${itemId}"]`);
-                const expandBtn = item.querySelector('.expand-btn i');
-                const wasExpanded = item.classList.contains('expanded');
+    if (isDragging) return; // Don't toggle if we're dragging
+    
+    const item = document.querySelector(`.item[data-id="${itemId}"]`);
+    const expandBtn = item.querySelector('.expand-btn i');
+    const wasExpanded = item.classList.contains('expanded');
 
-                // Close all other items and their subitems
-                document.querySelectorAll('.item.expanded').forEach(expandedItem => {
-                    if (expandedItem !== item) {
-                        expandedItem.classList.remove('expanded');
-                        const otherIcon = expandedItem.querySelector('.expand-btn i');
-                        if (otherIcon) {
-                            otherIcon.classList.remove('fa-chevron-up');
-                            otherIcon.classList.add('fa-chevron-down');
-                        }
-                    }
-                });
-
-                item.classList.toggle('expanded');
-                if (expandBtn) {
-                    expandBtn.classList.toggle('fa-chevron-up', !wasExpanded);
-                    expandBtn.classList.toggle('fa-chevron-down', wasExpanded);
-                }
+    // Close all other items
+    document.querySelectorAll('.item.expanded').forEach(expandedItem => {
+        if (expandedItem !== item) {
+            expandedItem.classList.remove('expanded');
+            const otherIcon = expandedItem.querySelector('.expand-btn i');
+            if (otherIcon) {
+                otherIcon.classList.remove('fa-chevron-up');
+                otherIcon.classList.add('fa-chevron-down');
             }
+        }
+    });
+
+    item.classList.toggle('expanded');
+    if (expandBtn) {
+        expandBtn.classList.toggle('fa-chevron-up', !wasExpanded);
+        expandBtn.classList.toggle('fa-chevron-down', wasExpanded);
+    }
+}
 
             function toggleSubitemContent(subitemId) {
                 event.stopPropagation();
@@ -2425,7 +2261,38 @@
                 const item = document.querySelector(`.item[data-id="${itemId}"]`);
                 item.classList.toggle('completed');
             }
+            function handleItemClick(e) {
+    const handle = e.target.closest('.drag-handle');
+    if (handle) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+}
+function handleItemDrop(dropTarget) {
+    const fromSection = draggedItem.closest('.section');
+    const toSection = dropTarget.closest('.section');
+    
+    if (!fromSection || !toSection) return;
 
+    const fromSectionData = sections.find(s => s.id === fromSection.dataset.id);
+    const toSectionData = sections.find(s => s.id === toSection.dataset.id);
+    
+    const itemId = draggedItem.dataset.id;
+    const fromIndex = fromSectionData.items.findIndex(i => i.id === itemId);
+    const [movedItem] = fromSectionData.items.splice(fromIndex, 1);
+
+    if (dropTarget.classList.contains('item')) {
+        const toIndex = toSectionData.items.findIndex(i => i.id === dropTarget.dataset.id);
+        const position = dropTarget.getAttribute('data-drop-position');
+        const adjustedIndex = position === 'after' ? toIndex + 1 : toIndex;
+        toSectionData.items.splice(adjustedIndex, 0, movedItem);
+    } else {
+        toSectionData.items.push(movedItem);
+    }
+    
+    updateAfterDrop();
+}
             function toggleSubitem(subitemId) {
                 sections = sections.map(section => ({
                     ...section,
@@ -2469,247 +2336,388 @@
             }
 
             function handleDragStart(e) {
-                if (e.type === 'touchstart') {
-                    e.preventDefault();
-                }
+    if (e.type === 'touchstart') {
+        e.preventDefault();
+    }
 
-                const handle = e.target.closest('.drag-handle');
-                if (!handle) return;
+    const handle = e.target.closest('.drag-handle');
+    if (!handle) return;
 
-                if (dragTimeout) {
-                    clearTimeout(dragTimeout);
-                }
+    // Clear any existing timeout
+    if (dragTimeout) {
+        clearTimeout(dragTimeout);
+    }
 
-                dragTimeout = setTimeout(() => {
-                    const dragType = handle.dataset.dragType;
-                    const element = dragType === 'section'
-                        ? handle.closest('.section')
-                        : dragType === 'subitem'
-                            ? handle.closest('.subitem')
-                            : handle.closest('.item');
+    // Create element for visual feedback
+    const holdIndicator = document.createElement('div');
+    holdIndicator.style.cssText = `
+        position: fixed;
+        top: ${e.type === 'touchstart' ? e.touches[0].clientY : e.clientY}px;
+        left: ${e.type === 'touchstart' ? e.touches[0].clientX : e.clientX}px;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 215, 0, 0.3);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        animation: holdFeedback 0.5s linear;
+    `;
 
-                    if (!element) return;
+    document.body.appendChild(holdIndicator);
 
-                    isDragging = true;
-                    element.classList.add('dragging');
-                    handle.classList.add('dragging');
-
-                    if (dragType === 'section') {
-                        draggedSection = element;
-                        draggedItem = null;
-                    } else if (dragType === 'subitem') {
-                        draggedItem = element;
-                        draggedSection = null;
-                    } else {
-                        draggedItem = element;
-                        draggedSection = null;
-                    }
-
-                    element.style.opacity = '0.5';
-
-                    document.addEventListener('mousemove', handleDragMove);
-                    document.addEventListener('touchmove', handleDragMove, { passive: false });
-                    document.addEventListener('mouseup', handleDragEnd);
-                    document.addEventListener('touchend', handleDragEnd);
-                }, 100);
-
-                document.addEventListener('mouseup', cancelDragStart);
-                document.addEventListener('touchend', cancelDragStart);
+    // Add animation style if it doesn't exist
+    if (!document.querySelector('#holdFeedbackStyle')) {
+        const style = document.createElement('style');
+        style.id = 'holdFeedbackStyle';
+        style.textContent = `
+            @keyframes holdFeedback {
+                0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0.8; }
+                100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
             }
-            function cancelDragStart() {
-                if (dragTimeout) {
-                    clearTimeout(dragTimeout);
-                    dragTimeout = null;
-                }
-                document.removeEventListener('mouseup', cancelDragStart);
-                document.removeEventListener('touchend', cancelDragStart);
-            }
+        `;
+        document.head.appendChild(style);
+    }
 
-            function handleDragMove(e) {
-    e.preventDefault();
+    // Set flag to track if drag was cancelled
+    let dragCancelled = false;
+
+    // Setup cancel listeners
+    const cancelDrag = () => {
+        dragCancelled = true;
+        clearTimeout(dragTimeout);
+        holdIndicator.remove();
+        document.removeEventListener('mouseup', cancelDrag);
+        document.removeEventListener('touchend', cancelDrag);
+        document.removeEventListener('mousemove', cancelOnMove);
+        document.removeEventListener('touchmove', cancelOnMove);
+    };
+
+    // Cancel drag if mouse/touch moves too much during hold
+    const cancelOnMove = (moveEvent) => {
+        const startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        const startY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+        const currentX = moveEvent.type === 'touchmove' ? moveEvent.touches[0].clientX : moveEvent.clientX;
+        const currentY = moveEvent.type === 'touchmove' ? moveEvent.touches[0].clientY : moveEvent.clientY;
+        
+        const distance = Math.sqrt(
+            Math.pow(currentX - startX, 2) + 
+            Math.pow(currentY - startY, 2)
+        );
+
+        if (distance > 10) { // Cancel if moved more than 10px
+            cancelDrag();
+        }
+    };
+
+    document.addEventListener('mouseup', cancelDrag);
+    document.addEventListener('touchend', cancelDrag);
+    document.addEventListener('mousemove', cancelOnMove);
+    document.addEventListener('touchmove', cancelOnMove);
+
+    // Start drag after hold time
+    dragTimeout = setTimeout(() => {
+        if (dragCancelled) return;
+
+        holdIndicator.remove();
+        document.removeEventListener('mouseup', cancelDrag);
+        document.removeEventListener('touchend', cancelDrag);
+        document.removeEventListener('mousemove', cancelOnMove);
+        document.removeEventListener('touchmove', cancelOnMove);
+
+        // Get drag type and element
+        const dragType = handle.dataset.dragType;
+        const element = dragType === 'section' 
+            ? handle.closest('.section')
+            : dragType === 'subitem'
+                ? handle.closest('.subitem')
+                : handle.closest('.item');
+
+        if (!element) return;
+
+        // Prevent click event from triggering item toggle
+        e.stopPropagation();
+        e.preventDefault();
+
+        // Set up drag state
+        isDragging = true;
+        
+        // Store expanded states
+        if (dragType === 'item' || dragType === 'subitem') {
+            const parentItem = element.closest('.item');
+            if (parentItem) {
+                expandedStates.set(parentItem.dataset.id, parentItem.classList.contains('expanded'));
+            }
+        }
+
+        // Set up dragged element
+        element.classList.add('dragging');
+        handle.classList.add('dragging');
+
+        if (dragType === 'section') {
+            draggedSection = element;
+            draggedItem = null;
+        } else {
+            draggedItem = element;
+            draggedSection = null;
+        }
+
+        element.style.opacity = '0.5';
+
+        // Add event listeners
+        document.addEventListener('mousemove', handleDragMove);
+        document.addEventListener('touchmove', handleDragMove, { passive: false });
+        document.addEventListener('mouseup', handleDragEnd);
+        document.addEventListener('touchend', handleDragEnd);
+
+        // Prevent text selection
+        document.body.style.userSelect = 'none';
+    }, 500); // 500ms hold time
+}
+function handleDragMove(e) {
     if (!isDragging) return;
+    e.preventDefault();
 
     const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
     const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const elementBelow = document.elementFromPoint(clientX, clientY);
 
-    // Remove existing drag-over states
+    if (!elementBelow) return;
+
+    // Clear previous drag-over states
     document.querySelectorAll('.drag-over').forEach(el => {
         el.classList.remove('drag-over');
         el.removeAttribute('data-drop-position');
     });
 
-    const elementBelow = document.elementFromPoint(clientX, clientY);
-    if (!elementBelow) return;
-
-    const isSubitem = draggedItem?.classList.contains('subitem');
-    let dropTarget;
-
-    if (isSubitem) {
-        dropTarget = elementBelow.closest('.subitem');
-        
-        if (dropTarget && dropTarget !== draggedItem) {
-            const targetRect = dropTarget.getBoundingClientRect();
-            const mouseY = clientY;
-            const threshold = targetRect.top + (targetRect.height / 2); // Change to 50%
-
-            const dropPosition = mouseY < threshold ? 'before' : 'after';
-            dropTarget.setAttribute('data-drop-position', dropPosition);
-
-            // Only allow dropping within same parent item
-            const draggedParentItem = draggedItem.closest('.item');
-            const dropParentItem = dropTarget.closest('.item');
-            
-            if (draggedParentItem !== dropParentItem) {
-                dropTarget = dropParentItem;
-            }
-        } else {
-            dropTarget = elementBelow.closest('.item');
+    if (draggedSection) {
+        // Handle section dragging
+        const targetSection = elementBelow.closest('.section:not(.dragging)');
+        if (targetSection) {
+            const rect = targetSection.getBoundingClientRect();
+            const position = clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+            targetSection.classList.add('drag-over');
+            targetSection.setAttribute('data-drop-position', position);
+            dragTarget = targetSection;
         }
+    } else if (draggedItem?.classList.contains('subitem')) {
+        // Handle subitem dragging
+        const targetSubitem = elementBelow.closest('.subitem:not(.dragging)');
+        const targetItem = elementBelow.closest('.item:not(.dragging)');
+
+        if (targetSubitem) {
+            const rect = targetSubitem.getBoundingClientRect();
+            const position = clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+            targetSubitem.classList.add('drag-over');
+            targetSubitem.setAttribute('data-drop-position', position);
+            dragTarget = targetSubitem;
+        } else if (targetItem) {
+            targetItem.classList.add('drag-over');
+            dragTarget = targetItem;
+        }
+    } else if (draggedItem) {
+        // Handle item dragging
+        const targetItem = elementBelow.closest('.item:not(.dragging)');
+        const targetSection = elementBelow.closest('.section');
+
+        if (targetItem) {
+            const rect = targetItem.getBoundingClientRect();
+            const position = clientY < rect.top + rect.height / 2 ? 'before' : 'after';
+            targetItem.classList.add('drag-over');
+            targetItem.setAttribute('data-drop-position', position);
+            dragTarget = targetItem;
+        } else if (targetSection) {
+            // Allow dropping in empty sections or at the end of sections
+            const itemsList = targetSection.querySelector('.items');
+            const lastItem = itemsList.lastElementChild;
+            
+            if (!lastItem || clientY > lastItem.getBoundingClientRect().bottom) {
+                itemsList.classList.add('drag-over');
+                dragTarget = targetSection;
+            }
+        }
+    }
+}
+function handleSubitemDrop(dropTarget) {
+    const sourceItem = draggedItem.closest('.item');
+    const targetItem = dropTarget.classList.contains('subitem') 
+        ? dropTarget.closest('.item') 
+        : dropTarget.classList.contains('item') ? dropTarget : null;
+    
+    if (!sourceItem || !targetItem) return;
+
+    // Find sections and items in the data structure
+    const sourceSection = sections.find(s => s.items.some(i => i.id === sourceItem.dataset.id));
+    const targetSection = sections.find(s => s.items.some(i => i.id === targetItem.dataset.id));
+    
+    if (!sourceSection || !targetSection) return;
+
+    const sourceItemData = sourceSection.items.find(i => i.id === sourceItem.dataset.id);
+    const targetItemData = targetSection.items.find(i => i.id === targetItem.dataset.id);
+    
+    if (!sourceItemData || !targetItemData) return;
+
+    // Get the subitem being moved
+    const subitemId = draggedItem.dataset.id;
+    const subitemIndex = sourceItemData.subitems.findIndex(s => s.id === subitemId);
+    const [movedSubitem] = sourceItemData.subitems.splice(subitemIndex, 1);
+
+    if (dropTarget.classList.contains('subitem')) {
+        // Dropping between subitems
+        const targetSubitemId = dropTarget.dataset.id;
+        const targetIndex = targetItemData.subitems.findIndex(s => s.id === targetSubitemId);
+        const dropPosition = dropTarget.getAttribute('data-drop-position');
+        
+        const insertIndex = dropPosition === 'after' ? targetIndex + 1 : targetIndex;
+        targetItemData.subitems.splice(insertIndex, 0, movedSubitem);
     } else {
-        dropTarget = elementBelow.closest('.item') || elementBelow.closest('.section');
+        // Dropping directly onto an item
+        targetItemData.subitems.push(movedSubitem);
     }
 
-    if (dropTarget && dropTarget !== (draggedSection || draggedItem)) {
-        dropTarget.classList.add('drag-over');
+    // Ensure target item is expanded
+    const targetItemElement = document.querySelector(`.item[data-id="${targetItem.dataset.id}"]`);
+    if (targetItemElement && !targetItemElement.classList.contains('expanded')) {
+        targetItemElement.classList.add('expanded');
     }
+
+    updateAfterDrop();
 }
 
 
-
-            function handleDragEnd(e) {
-                if (!isDragging) return;
-
-                const elementBelow = document.elementFromPoint(
-                    e.type === 'touchend'
-                        ? e.changedTouches[0].clientX
-                        : e.clientX,
-                    e.type === 'touchend'
-                        ? e.changedTouches[0].clientY
-                        : e.clientY
-                );
-
-                if (elementBelow) {
-                    const dropTarget = draggedSection
-                        ? elementBelow.closest('.section')
-                        : elementBelow.closest('.item');
-
-                    if (dropTarget && dropTarget !== (draggedSection || draggedItem)) {
-                        handleDrop(dropTarget);
-                    }
-                }
-
-                // Clean up
-                isDragging = false;
-                if (draggedSection) {
-                    draggedSection.style.opacity = '';
-                    draggedSection.classList.remove('dragging');
-                    draggedSection = null;
-                }
-                if (draggedItem) {
-                    draggedItem.style.opacity = '';
-                    draggedItem.classList.remove('dragging');
-                    draggedItem = null;
-                }
-
-                document.querySelectorAll('.drag-over').forEach(el =>
-                    el.classList.remove('drag-over'));
-                document.querySelectorAll('.dragging').forEach(el =>
-                    el.classList.remove('dragging'));
-
-                document.removeEventListener('mousemove', handleDragMove);
-                document.removeEventListener('touchmove', handleDragMove);
-                document.removeEventListener('mouseup', handleDragEnd);
-                document.removeEventListener('touchend', handleDragEnd);
-            }
-
-            // Update the handleDrop function
-            function handleDrop(dropTarget) {
+function handleDragEnd(e) {
     if (!isDragging) return;
 
-    if (draggedItem?.classList.contains('subitem')) {
-        const fromItem = draggedItem.closest('.item');
-        const toItem = dropTarget?.closest('.item');
-        
-        // Store expanded state
-        const wasExpanded = fromItem.classList.contains('expanded');
-        const scrollPosition = window.scrollY;
-
-        if (fromItem && toItem && fromItem.dataset.id === toItem.dataset.id) {
-            const fromSection = fromItem.closest('.section');
-            const fromSectionData = sections.find(s => s.id === fromSection.dataset.id);
-            const fromItemData = fromSectionData.items.find(i => i.id === fromItem.dataset.id);
-            const draggedSubitemId = draggedItem.dataset.id;
-            const fromIndex = fromItemData.subitems.findIndex(s => s.id === draggedSubitemId);
-
-            let toIndex;
-            if (dropTarget?.classList.contains('subitem')) {
-                const targetId = dropTarget.dataset.id;
-                toIndex = fromItemData.subitems.findIndex(s => s.id === targetId);
-                const dropPosition = dropTarget.getAttribute('data-drop-position');
-
-                if (dropPosition === 'before') {
-                    // No adjustment needed for 'before'
-                } else {
-                    toIndex++; // Increment for 'after'
-                }
-            } else {
-                toIndex = fromItemData.subitems.length;
-            }
-
-            // Remove the item from its current position
-            const [movedSubitem] = fromItemData.subitems.splice(fromIndex, 1);
-            
-            // Insert at the new position
-            fromItemData.subitems.splice(toIndex, 0, movedSubitem);
-
-            saveToStorage();
-            renderSections();
-
-            // Restore expanded state and scroll position
-            setTimeout(() => {
-                if (wasExpanded) {
-                    const newFromItem = document.querySelector(`[data-id="${fromItem.dataset.id}"]`);
-                    if (newFromItem) {
-                        newFromItem.classList.add('expanded');
-                        const dropdownContent = newFromItem.querySelector('.dropdown-content');
-                        if (dropdownContent) {
-                            dropdownContent.style.display = 'block';
-                        }
-                    }
-                }
-                window.scrollTo(0, scrollPosition);
-            }, 0);
-        }
-    } else {
-        // Handle regular items and sections (unchanged)
-        if (draggedSection && dropTarget?.classList.contains('section')) {
-            const fromIndex = Array.from(draggedSection.parentNode.children).indexOf(draggedSection);
-            const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
-            const [movedSection] = sections.splice(fromIndex, 1);
-            sections.splice(toIndex, 0, movedSection);
-        } else if (draggedItem) {
-            const fromSection = draggedItem.closest('.section');
-            const toSection = dropTarget?.closest('.section');
-            const fromSectionId = fromSection.dataset.id;
-            const toSectionId = toSection.dataset.id;
-
-            const fromIndex = Array.from(draggedItem.parentNode.children).indexOf(draggedItem);
-            const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
-
-            const fromSectionData = sections.find(s => s.id === fromSectionId);
-            const [movedItem] = fromSectionData.items.splice(fromIndex, 1);
-
-            if (fromSectionId === toSectionId) {
-                fromSectionData.items.splice(toIndex, 0, movedItem);
-            } else {
-                const toSectionData = sections.find(s => s.id === toSectionId);
-                toSectionData.items.splice(toIndex, 0, movedItem);
-            }
-        }
-        
-        saveToStorage();
-        renderSections();
+    if (dragTarget) {
+        handleDrop(dragTarget);
     }
+
+    // Reset states
+    isDragging = false;
+    draggedItem = null;
+    draggedSection = null;
+    dragTarget = null;
+    dropPosition = null;
+
+    // Clean up
+    document.querySelectorAll('.drag-over').forEach(el => {
+        el.classList.remove('drag-over');
+        el.removeAttribute('data-drop-position');
+    });
+
+    document.removeEventListener('mousemove', handleDragMove);
+    document.removeEventListener('touchmove', handleDragMove);
+    document.removeEventListener('mouseup', handleDragEnd);
+    document.removeEventListener('touchend', handleDragEnd);
+
+    // Re-enable text selection
+    document.body.style.userSelect = '';
+}
+
+            // Update the handleDrop function
+            
+            function handleDrop(dropTarget) {
+    if (!isDragging || !dropTarget) return;
+
+    if (draggedSection) {
+        // Handle section reordering
+        const fromIndex = Array.from(draggedSection.parentNode.children).indexOf(draggedSection);
+        const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+        const position = dropTarget.getAttribute('data-drop-position');
+        
+        const [movedSection] = sections.splice(fromIndex, 1);
+        const adjustedIndex = position === 'after' ? toIndex + 1 : toIndex;
+        sections.splice(adjustedIndex, 0, movedSection);
+        
+    } else if (draggedItem?.classList.contains('subitem')) {
+        // Handle subitem movement
+        const sourceItem = draggedItem.closest('.item');
+        const targetItem = dropTarget.classList.contains('subitem') 
+            ? dropTarget.closest('.item') 
+            : dropTarget.classList.contains('item') ? dropTarget : null;
+        
+        if (!sourceItem || !targetItem) return;
+
+        const sourceSection = sections.find(s => s.items.some(i => i.id === sourceItem.dataset.id));
+        const targetSection = sections.find(s => s.items.some(i => i.id === targetItem.dataset.id));
+        
+        if (!sourceSection || !targetSection) return;
+
+        const sourceItemData = sourceSection.items.find(i => i.id === sourceItem.dataset.id);
+        const targetItemData = targetSection.items.find(i => i.id === targetItem.dataset.id);
+        
+        if (!sourceItemData || !targetItemData) return;
+
+        const subitemId = draggedItem.dataset.id;
+        const [movedSubitem] = sourceItemData.subitems.splice(
+            sourceItemData.subitems.findIndex(s => s.id === subitemId),
+            1
+        );
+
+        if (dropTarget.classList.contains('subitem')) {
+            // Drop between subitems
+            const targetSubitemId = dropTarget.dataset.id;
+            const targetIndex = targetItemData.subitems.findIndex(s => s.id === targetSubitemId);
+            const position = dropTarget.getAttribute('data-drop-position');
+            const insertIndex = position === 'after' ? targetIndex + 1 : targetIndex;
+            targetItemData.subitems.splice(insertIndex, 0, movedSubitem);
+        } else {
+            // Drop on item
+            targetItemData.subitems.push(movedSubitem);
+        }
+        
+    } else if (draggedItem) {
+        // Handle item movement
+        const sourceSection = draggedItem.closest('.section');
+        const targetSection = dropTarget.closest('.section');
+        
+        if (!sourceSection || !targetSection) return;
+
+        const sourceSectionData = sections.find(s => s.id === sourceSection.dataset.id);
+        const targetSectionData = sections.find(s => s.id === targetSection.dataset.id);
+        
+        if (!sourceSectionData || !targetSectionData) return;
+
+        const [movedItem] = sourceSectionData.items.splice(
+            sourceSectionData.items.findIndex(i => i.id === draggedItem.dataset.id),
+            1
+        );
+
+        if (dropTarget.classList.contains('item')) {
+            // Drop between items
+            const targetIndex = targetSectionData.items.findIndex(i => i.id === dropTarget.dataset.id);
+            const position = dropTarget.getAttribute('data-drop-position');
+            const insertIndex = position === 'after' ? targetIndex + 1 : targetIndex;
+            targetSectionData.items.splice(insertIndex, 0, movedItem);
+        } else {
+            // Drop at the end of a section
+            targetSectionData.items.push(movedItem);
+        }
+    }
+
+    updateAfterDrop();
+}
+function handleSectionDrop(dropTarget) {
+    const fromIndex = Array.from(draggedSection.parentNode.children).indexOf(draggedSection);
+    const toIndex = Array.from(dropTarget.parentNode.children).indexOf(dropTarget);
+    const position = dropTarget.getAttribute('data-drop-position');
+    
+    const [movedSection] = sections.splice(fromIndex, 1);
+    const adjustedIndex = position === 'after' ? toIndex + 1 : toIndex;
+    sections.splice(adjustedIndex, 0, movedSection);
+    
+    updateAfterDrop();
+}
+function getCursorPosition(e, element) {
+    const rect = element.getBoundingClientRect();
+    const y = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+    const relativeY = y - rect.top;
+    const threshold = rect.height / 2;
+    
+    return {
+        position: relativeY < threshold ? 'before' : 'after',
+        y: relativeY
+    };
 }
             // Import/Export Functions
             function exportData() {
@@ -3060,7 +3068,10 @@
                 hideModals();
                 showNotification('Meditations added successfully');
             }
-
+            initializeDragHandles();
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', handleItemClick);
+    });
             // Make sure to expose the new functions to the window object
             window.editSection = editSection;
             window.saveSection = saveSection;
